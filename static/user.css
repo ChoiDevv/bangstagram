@@ -1,0 +1,16 @@
+.status-bar {
+    max-width: 720px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    position: fixed;
+}
+
+.status-bar .status-bar-icon {
+    margin: 3% 5%;
+    width: 4%;
+}
+
+.status-bar #logo {
+    width: 27%;
+}
