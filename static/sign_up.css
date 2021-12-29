@@ -1,22 +1,19 @@
-
+* {margin:0; padding: 0; box-sizing: border-box;}
 body {
-    margin: 7.75% auto !imaportant;
+    margin: 7.75% auto;
     justify-content: center;
     align-items: center;
     display: flex;
 }
 #container{
     width: 350px;
-    height: 785px;
+
     background-color: white;
     display: flex;
     flex-direction: column;
     align-items: center;
     border: solid 1px lightgray;
 
-
-}
-.container_wrapper{
 
 }
 #sign_up{
@@ -35,27 +32,38 @@ body {
     justify-content: center;
     align-items: center;
 }
-
+.sign_up_header_email{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 .sign_up_header img{
     width: 48%;
-    margin-top: 7%;
+    border-radius: 10%;
+    padding: 25px 2%;
+
 }
 .sign_up_header .sign_up_header_text{
     color: gray;
 }
 .sign_up_header_under img{
-   width: 5%
-
+    width: 10px;
+    height: 10px;
+    padding: 0;
+    margin-right: 2px;
 }
 .sign_up_header_under{
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 75%;
+    width: 70%;
+    height: 30px;
     background-color: dodgerblue;
     color: white;
     border-radius: 3px;
     font-size: 40%;
+    margin: 2% 0;
 }
 
 
@@ -76,14 +84,15 @@ body {
 }
 .sign_up_input{
     width: 100%;
-    height: 20px;
+    height: 30px;
     border-radius: 2px;
     border: solid 1px lightgray;
     font-size: 90%;
     margin: 2% 0;
 }
 .input_wrapper{
-    width: 75%;
+    width: 70%;
+
 }
 
 .sign_up_form_radio{
@@ -105,17 +114,19 @@ body {
     margin-bottom: 3%;
 }
 
-.passward_btn{
+.check_btn{
     border: lightgray;
-    border-radius: 5%;
+    border-radius: 3px;
     color: white;
     background-color: lightgray;
-    width: 30%;
+    width: 100%;
+    padding: 5px;
+    font-size: 12px;
 
 }
 .passward_btn:hover{
     background-color: darkgrey;
-
+    font-weight: bold;
 }
 
 
@@ -127,20 +138,47 @@ body {
 }
 .sign_up_submit #sign_up_submit_btn:hover{
     background-color: dodgerblue;
-    color: black;
+    color: white;
+    font-weight: bold;
+
 }
 .sign_up_submit #sign_up_submit_btn{
     background-color: lightskyblue;
     border: none;
-    display: inline-block;
-    font-size: 10%;
-    width: 75%;
-    border-radius: 2%;
-    color: white;
-    padding: 1%;
+    font-size: 14px;
 
+    width: 70%;
+    border-radius: 3px;
+    color: white;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
+
+.line-box {
+    position: relative;
+    margin: 12px auto 30px;
+}
+.line-box:before {
+    content: '';
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    display: block;
+    width: 70%;
+    height: 1px;
+    background-color: rgba(219,219,219,1);}
+.line-box > span {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    display: inline-block;
+    padding: 0 8px;
+    background-color: #fff;
+    color: #bebebe;
+    font-size: 14px;}
 
 
 .sign_up_form_footer_info{
@@ -150,45 +188,57 @@ body {
     font-size: 100%;
     width: 100%;
     height: 10%;
-    padding: 10px 0;
+    padding: 15px 0;
 }
 
-.sign_up_form_footer_info .sign_up_form_footer_text_wrapper{
 
-}
 
 .sign_up_form_footer{
-    width: 100%;
+
     height: 20%;
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
+    padding: 15px 0;
 }
 .sign_up_form_footer_text{
     font-size: 95%;
+
 }
- .container_footer_stores{
-    width: 60%;
+.container_footer_stores_wrapper{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+.container_footer_stores{
+    width: 80%;
     display: flex;
     align-items: center;
     justify-content: center;
-
+    margin-top: 20px;
 }
 .container_footer_stores #apple{
-    width: 100%;
+    width: 100px;
 }
 .container_footer_stores #google{
-    width: 54%;
+    width: 100px;
+}
+#google_wrapper {margin-left: 10px;}
+#google_wrapper > a,
+#apple_wrapper > a {
+    display: inline-block;
 }
 
 .sign_up_form_footer_plus p{
     color: darkgrey;
+    margin-bottom: 15px;
 }
 .sign_up_form_footer_plus .sign_up_form_footer_plus_upper {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    text-align: center;
     font-size: 80%;
+
 }
 
 .sign_up_form_footer_plus .sign_up_form_footer_plus_lower{

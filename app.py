@@ -64,6 +64,8 @@ def sign_up():
     db.userinfo.insert_one({{'id': username_receive}, {'hash': password_receive}, {'email':email_receive}, {'gender':gender_receive}})
     # DB에 저장
     return jsonify({'result': 'success'})
+
+
 @app.route('/sign_up/check_dup', methods=['POST'])
 def check_dup():
     get_id = request.form['username_give']
