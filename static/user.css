@@ -1,0 +1,130 @@
+body {
+    width: 100%;
+    margin: 0 auto;
+    height: auto;
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
+
+.insta-status-bar {
+    width: 100%;
+    top: 0;
+    display: flex;
+    justify-content: center;
+    position: fixed;
+    z-index: 1;
+    background-color: white;
+    margin-left: 0.1vw;
+    margin-right: 0.1vw;
+    box-sizing: border-box;
+}
+
+.insta-status-bar__img {
+    width: 100%;
+    margin-top : 1vh;
+}
+
+.insta-status-bar__img:nth-child(2) {
+    display: flex;
+    justify-content: center;
+}
+
+.insta-status-bar__img:last-child {
+    display:flex;
+    justify-content: flex-end;
+}
+
+#insta-container {
+    margin-top: 5.5vh;
+}
+
+.insta-container__column {
+    display: flex;
+    justify-content: space-around;
+    background-color: #F6F6F6;
+    border: 1px solid #D5D5D5;
+}
+
+.insta-container__column-img {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    align-items: center;
+}
+
+.insta-container__column-img > img {
+    border-radius: 50%;
+}
+
+#insta-container__user {
+    margin: 0 1vh;
+    margin-top: 1vh;
+}
+
+.insta-container__user {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.insta-container__user-img {
+    display: flex;
+    align-items: center;
+
+}
+
+.insta-container__user-img > img {
+    border-radius: 50%;
+    margin-right: 1vw;
+}
+
+.insta-container__user-img > p {
+    font-weight: bold;
+}
+
+.insta-container__image {
+    margin-top: 1vh;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+}
+
+.insta-container__like {
+    display: flex;
+    margin: 0 1vh;
+    margin-top: 2vh;
+    justify-content: space-between;
+}
+
+.insta-container__like img {
+    padding: 0.5vw;
+}
+
+#insta-container__final {
+    margin: 0.5vw 1vh;
+ }
+
+.insta-container__final {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1vh;
+}
+
+.insta-container__final > img {
+    border-radius: 50%;
+    margin-right: 1vw;
+}
+
+.insta-nav {
+    width: 100%;
+    bottom: 0;
+    display: flex;
+    flex-direction: row;
+    position: fixed;
+    justify-content: space-around;
+    box-sizing: border-box;
+    z-index: 1;
+    background-color: white;
+}
