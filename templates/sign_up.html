@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Instagram</title>
-    <link rel="stylesheet" href="/bangstagram/static/sign_up.css">
+    <link rel="stylesheet" href="../static/sign_up.css">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="../static/sha256.js"></script>
@@ -20,11 +20,11 @@
             }
             $.ajax({
                 type: "POST",
-                url: "/signup",
+                url: "/sign_up/save",
                 data: {email_give:email,
-                        pwd_give:hash_pwd,
+                        password_give:hash_pwd,
                         name_give:name,
-                        nickname_give:nickname,
+                        username_give:nickname,
                         gender_give:gender
                 },
                 success: function (response) {
@@ -33,18 +33,20 @@
             });
         }
         function check_pwd(){
-            let pwd = $('#password')
-            let pwd_check = $('#password_check')
-            let temp_html =``
+            let pwd = $('#password').val();
+            let pwd_check = $('#password_check').val();
+            let temp_html =``;
             if (pwd == pwd_check){
-                alert("확인되었습니다.")
-            }else{
-                alert("비밀번호를 올바르게 입력하세요.")
+                //alert("확인되었습니다.");
+                console.log('ook');
+            }
+            else{
+                alert("비밀번호를 올바르게 입력하세요.");
                 temp_html=`<input class="sign_up_input" type="password" id="password_check" placeholder="passward_check" required>
                         <button class="passward_btn" onclick="check_pwd()">확인하기</button>
-                `
-                $('#passward_check').empty()
-                $('#passward_check').append(temp_html)
+                `;
+                $('#passward_check').empty();
+                $('#passward_check').append(temp_html);
             }
         }
     </script>
