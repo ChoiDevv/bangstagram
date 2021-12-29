@@ -50,6 +50,10 @@ def sign_in():
     else:
         return jsonify({'result': 'fail', 'msg':'아이디/비밀번호가 정확하지 않습니다.'})
 
+@app.route('/sign_up')
+def sign_up_page():
+    #msg = request.args.get("msg")
+    return render_template('sign_up.html')
 
 @app.route('/sign_up/save', methods=['POST'])
 def sign_up():
@@ -60,7 +64,7 @@ def sign_up():
     gender_receive = request.form['gender_give']
     #아래는 해쉬되어서 온다는 가정
     #password_hash = hashlib.sha256(password_receive.encode('utf-8')).hexdigest()
-    db.userinfo.insert_one({{'id': username_receive}, {'hash': password_receive}, {'email':email_receive}, {'gender':gender_receive}})
+    db.userinfo.insert_one({'id': username_receive, 'hash': password_receive, 'email':email_receive, 'gender':gender_receive})
     # DB에 저장
     return jsonify({'result': 'success'})
 
