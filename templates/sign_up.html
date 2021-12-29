@@ -28,7 +28,12 @@
                         gender_give:gender
                 },
                 success: function (response) {
-                    alert(response["result"])
+                    if(response["result"] == 'fail'){
+                        console.log('failed');
+                    }
+                    else{
+                        alert(response["result"]);
+                    }
                 }
             });
         }

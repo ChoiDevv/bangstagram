@@ -35,11 +35,9 @@ def login():
 
 @app.route('/sign_in', methods=['POST'])
 def sign_in():
-    id = request.form['username_give']
+    id = request.form['username_give']#이메일받아오는거임 아이디아님
     hassed_pw = request.form['password_give']
-    #id = 'test'
-    #hassed_pw = '9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08'
-    search_result = list(db.userinfo.find({'$and': [{'id': id}, {'hash': hassed_pw}]}, {'_id':False}))
+    search_result = list(db.userinfo.find({'$and': [{'email': id}, {'hash': hassed_pw}]}, {'_id':False}))
     # 로그인
     if(len(search_result)==1):
         time_token = (datetime.utcnow() + timedelta(seconds=30))
@@ -58,15 +56,18 @@ def sign_up_page():
 @app.route('/sign_up/save', methods=['POST'])
 def sign_up():
     # 회원가입
-    username_receive = request.form['username_give']
+    username_receive = request.form['username_give']#유저의 닉네임
     password_receive = request.form['password_give']
-    email_receive = request.form['email_give']
+    email_receive = request.form['email_give']#유저의 이메일
     gender_receive = request.form['gender_give']
     #아래는 해쉬되어서 온다는 가정
-    #password_hash = hashlib.sha256(password_receive.encode('utf-8')).hexdigest()
-    db.userinfo.insert_one({'id': username_receive, 'hash': password_receive, 'email':email_receive, 'gender':gender_receive})
+    search_result = list(db.userinfo.find({'$or': [{'email': email_receive}, {'id':username_receive}]}, {'_id': False}))
+    if(len(search_result) == 0):
+        db.userinfo.insert_one({'id': username_receive, 'hash': password_receive, 'email':email_receive, 'gender':gender_receive})
+        return jsonify({'result': 'success'})
+    else:
+        return jsonify({'result': 'fail'})
     # DB에 저장
-    return jsonify({'result': 'success'})
 
 @app.route('/sign_up/check_dup', methods=['POST'])
 def check_dup():
