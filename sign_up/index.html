@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>Instagram</title>
+    <link rel="stylesheet" href="/bangstagram/sign_up/static/style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="/bangstagram/sign_upgram/sign_up/static/sha256.js"></script>
+
+    <script>
+        function submit_sign_up(){
+            let email = $('#email').val()
+            let hash_pwd = SHA256($('#password').val())
+            let name = $('#name').val()
+            let nickname = $('#nickname').val()
+            let gender = $('#gender').val()
+            if(gender != "male") {
+                gender = "femal"
+            }
+            $.ajax({
+                type: "POST",
+                url: "/signup",
+                data: {email_give:email,
+                        pwd_give:hash_pwd,
+                        name_give:name,
+                        nickname_give:nickname,
+                        gender_give:gender
+                },
+                success: function (response) {
+                    alert(response["msg"])
+                }
+            });
+        }
+        function check_pwd(){
+            let pwd = $('#password')
+            let pwd_check = $('#password_check')
+            let temp_html =``
+            if (pwd == pwd_check){
+                alert("확인되었습니다.")
+            }else{
+                alert("비밀번호를 올바르게 입력하세요.")
+                temp_html=`<input class="sign_up_input" type="password" id="password_check" placeholder="passward_check" required>
+                        <button class="passward_btn" onclick="check_pwd()">확인하기</button>
+                `
+                $('#passward_check').empty()
+                $('#passward_check').append(temp_html)
+            }
+        }
+    </script>
+
+</head>
+<body>
+<div id="container">
+    <div id="sign_up">
+        <div class="sign_up_header">
+            <img src="/bangstagram/sign_up/static/insta-logo.png">
+            <h4 class="sign_up_header_text">친구들의 사진과 동영상을 보려면 가입하세요.</h4>
+
+            <div class="sign_up_header_under">
+                <img src="/bangstagram/sign_up/static/facebook-logo-icon-.jpeg" >
+                <h5>Facebook으로 로그인</h5>
+            </div>
+        </div>
+
+        <div class="sign_up_middle_upper">
+            <form class="sign_up_form">
+                <div class="input_wrapper">
+                    <input class="sign_up_input" type="email" id="email" placeholder="휴대폰 번호 또는 이메일 주소" required>
+                </div>
+                <div class="input_wrapper">
+                    <div class="sign_up_form_radio">
+                        <input id="gender" class="sign_up_input" type="radio" value="male" name="gender"><p>남성</p>
+                        <input  class="sign_up_input" type="radio" value="female" name="gender">여성
+                    </div>
+                </div>
+                <div class="input_wrapper">
+                    <input class="sign_up_input" type="text" id="nmae" placeholder="성명">
+                </div>
+
+                <div class="input_wrapper">
+                    <input class="sign_up_input" type="text" id="nickname" placeholder="사용자 이름">
+                </div>
+
+                <div class="input_wrapper">
+                    <input class="sign_up_input" type="password" id="password" placeholder="passward" required>
+                </div>
+
+                <div class="input_wrapper">
+                    <div id="passward_check">
+                        <input class="sign_up_input" type="password" id="password_check" placeholder="passward_check" required>
+                        <button class="passward_btn" onclick="check_pwd()">확인하기</button>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+        <div class="sign_up_middle_lower">
+            <div class="sign_up_submit">
+                <button id="sign_up_submit_btn" onclick="submit_sign_up()" >가입</button>
+            </div>
+        </div>
+
+
+        <div class="sign_up_form_footer_info">
+            <div class="sign_up_form_footer_text_wrapper">
+                <span class="sign_up_form_footer_text">계정이 있으신가요?</span> <a href="">로그인</a>
+            </div>
+        </div>
+        <div class="sign_up_form_footer">
+            <div>
+                <span class="sign_up_form_footer_text">앱을 다운로드 하세요<span>
+            </div>
+            <div class="container_footer_stores">
+                <p><img id="apple" src="/bangstagram/sign_up/static/appstore.png"></p>
+                <p><img id="google" src="/bangstagram/sign_up/static/playstoer.png"></p>
+            </div>
+        </div>
+
+        <div class="sign_up_form_footer_plus">
+            <div class="sign_up_form_footer_plus_upper">
+                <p>Meta</p> <p>소개</p> <p>블로그</p> <p>조원정보</p>
+            </div>
+            <div class="sign_up_form_footer_plus_lower">
+                <p>개인정보처리방침</p> <p>약관</p> <p>인기계정</p> <p>해시태그</p> <p>위치</p>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>

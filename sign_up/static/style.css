@@ -1,0 +1,205 @@
+
+body {
+    margin: 7.75% auto !imaportant;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+}
+#container{
+    width: 350px;
+    height: 785px;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: solid 1px lightgray;
+
+
+}
+.container_wrapper{
+
+}
+#sign_up{
+    background-color: white;
+    width: 100%;
+    height: 62.5%;
+
+
+
+}
+
+/*header*/
+.sign_up_header{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.sign_up_header img{
+    width: 48%;
+    margin-top: 7%;
+}
+.sign_up_header .sign_up_header_text{
+    color: gray;
+}
+.sign_up_header_under img{
+   width: 5%
+
+}
+.sign_up_header_under{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 75%;
+    background-color: dodgerblue;
+    color: white;
+    border-radius: 3px;
+    font-size: 40%;
+}
+
+
+/*form*/
+.sign_up_form{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+
+}
+.sign_up_middle_upper{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+.sign_up_input{
+    width: 100%;
+    height: 20px;
+    border-radius: 2px;
+    border: solid 1px lightgray;
+    font-size: 90%;
+    margin: 2% 0;
+}
+.input_wrapper{
+    width: 75%;
+}
+
+.sign_up_form_radio{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.sign_up_gender{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+#submit_button_wrapper{
+    display: flex;
+    justify-content: center;
+    background-color: white;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 3%;
+}
+
+.passward_btn{
+    border: lightgray;
+    border-radius: 5%;
+    color: white;
+    background-color: lightgray;
+    width: 30%;
+
+}
+.passward_btn:hover{
+    background-color: darkgrey;
+
+}
+
+
+.sign_up_submit{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 20px 0px;
+}
+.sign_up_submit #sign_up_submit_btn:hover{
+    background-color: dodgerblue;
+    color: black;
+}
+.sign_up_submit #sign_up_submit_btn{
+    background-color: lightskyblue;
+    border: none;
+    display: inline-block;
+    font-size: 10%;
+    width: 75%;
+    border-radius: 2%;
+    color: white;
+    padding: 1%;
+
+}
+
+
+
+.sign_up_form_footer_info{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 100%;
+    width: 100%;
+    height: 10%;
+    padding: 10px 0;
+}
+
+.sign_up_form_footer_info .sign_up_form_footer_text_wrapper{
+
+}
+
+.sign_up_form_footer{
+    width: 100%;
+    height: 20%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.sign_up_form_footer_text{
+    font-size: 95%;
+}
+ .container_footer_stores{
+    width: 60%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+}
+.container_footer_stores #apple{
+    width: 100%;
+}
+.container_footer_stores #google{
+    width: 54%;
+}
+
+.sign_up_form_footer_plus p{
+    color: darkgrey;
+}
+.sign_up_form_footer_plus .sign_up_form_footer_plus_upper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 80%;
+}
+
+.sign_up_form_footer_plus .sign_up_form_footer_plus_lower{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 80%;
+}
+
+@media screen and (max-width:480px){
+    #container{
+    width: 100%;
+}
+}
