@@ -47,8 +47,6 @@ body {
 }
 
 .container-header img {
-    max-width: 150px;
-    max-height: 150px;
     width: 20vw;
     height: 20vw;
     border-radius: 50%;
