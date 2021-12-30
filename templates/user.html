@@ -69,7 +69,7 @@
                     $('#profile_place').append(`
                         <img src="../static/user_img/${response['result']['profile_pic_name']}" style="height:40px;"/>
                         `)
-                    $('#profile_place').append(`<p>이름</p>`)
+                    $('#profile_place').append(`<p>${response['result']['user_id']}</p>`)
                 }
             })
         }

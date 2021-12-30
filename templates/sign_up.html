@@ -64,7 +64,7 @@
         function check_id(){
             let email = $('#email').val()
             $.ajax({
-                type: 'GET',
+                type: 'POST',
                 url: '/sign_up/check_dup',
                 data: {'username_give':email},
                 success: function (response) {

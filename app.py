@@ -78,12 +78,15 @@ def post_user_page():
     token_receive = request.cookies.get('mytoken')
     try:
         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
-        profile_pic_name = list(db.userinfo.find({"email":payload['id']}))[0]['profile_img']
+        userinfo_find = list(db.userinfo.find({"email":payload['id']}))
+        profile_pic_name = userinfo_find[0]['profile_img']
+        user_id = userinfo_find[0]['id']
         follower = list(db.userinfo.find({"email":payload['id']}))[0]['follower']
         follow = list(db.userinfo.find({"email": payload['id']}))[0]['follow']
         post = list(db_post.postinfo.find({"email":payload['id']}, {'_id': False}))
         print(profile_pic_name)
         data = {
+            'user_id' : user_id,
             'profile_pic_name' :  profile_pic_name,
             'post_num' : len(post),
             'follower' : follower,
@@ -129,7 +132,6 @@ def check_dup():
         return jsonify({'result': 'success'})
     else:
         return jsonify({'result': 'fail'})
-
 
 @app.route('/fileupload', methods=['POST'])
 def file_upload():
@@ -193,7 +195,6 @@ def user_file_upload():
         #app.config['UPLOAD_FOLDER'] = os.getcwd()+'\'
         #f.save(os.path.join(app.config['UPLOAD_FOLDER'], 'tmp.png'))
         file.save(cur_path)
-
         doc = {'title': title_receive, 'img': f'{filename}.{extension}'}
         db_imgs.img.insert_one(doc)
         #######여기 위까지가 이미지 저장
