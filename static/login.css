@@ -1,0 +1,77 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: white;
+    height: 70vh;
+}
+
+.container {
+    min-width: 350px;
+    width: 25%;
+    height: 70%;
+    display: flex;
+    flex-direction: column;
+    justify-items: center;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+    background: white;
+    border: 1px solid lightgrey;
+    border-radius: 5px;
+}
+
+.logo {
+    width: 50%;
+    margin-top: 10%;
+}
+
+.input_field {
+    width: 90%;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.input_id {
+    width: 80%;
+    padding: 3%;
+    border: 1px solid lightgray;
+    border-radius: 5px;
+}
+
+#username {
+    border: 0px
+}
+
+.input_password {
+    width: 80%;
+    padding: 3%;
+    border: 1px solid lightgray;
+    margin-top: 10px;
+    border-radius: 5px;
+}
+
+#password {
+    border: 0px;
+}
+
+.button {
+    font-size: 15px;
+    width: 90%;
+    margin-top: 15px;
+    margin-bottom: 25px;
+    padding: 10px;
+    font-weight: bold;
+    color: white;
+    background: dodgerblue;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+.sign_up {
+    color: blue;
+    cursor: pointer;
+}
