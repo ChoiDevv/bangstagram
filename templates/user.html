@@ -1,34 +1,104 @@
 <!-- 개인 페이지 -->
 <!DOCTYPE html>
-<html lang="en">
+<html lang="kr">
 <head>
     <meta charset="UTF-8">
     <title>User Page</title>
-    <link rel="stylesheet" type="text/css" href="/static/user.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
-            crossorigin="anonymous"></script>
+    <link rel="stylesheet" type="text/css" href = "../static/user.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            user_comment()
+        });
+
+        function user_comment() {
+            $.ajax({
+                type: 'GET',
+                url: '/user/comment',
+                data: {},
+                success: function (response) {
+                    let info = response['info']; // info 로 받는 것을 생각했는데 이 부분에서 수정 가능성 다수
+                    for(let i = 0; i < info.length; i++) {
+                        let name = info[i]['name'];// 회원가입에서 받아온 유저의 이름
+                        let comment = info[i]['comment']; // 피드 올리는 페이지에서 받아온 내용
+                        let temp_html = `<div class="card" style="width: 18rem;">
+                                            <div class="card-body">
+                                                <h5 class="card-title">Comment</h5>
+                                                <p class="card-text">${comment}}</p>
+                                            </div>
+                                            <ul class="list-group list-group-flush">
+                                                <li class="list-group-item">${name}</li>
+                                            </ul>
+                                        </div>`;
+                        $('#container-footer').append(temp_html);
+                    }
+                }
+            })
+        }
+
+        function image_post() {
+            let title = $('#title').val()
+            let file = $('#file')[0].files[0]
+            let form_data = new FormData()
+
+            form_data.append("title_give", title)
+            form_data.append("file_give", file)
+            $.ajax({
+                type: "POST",
+                url: "/user/fileupload",
+                data: form_data,
+                cache: false,
+                contentType: false,
+                processData: false,
+                success: function (response) {
+                    alert(response["result"])
+                    window.location.reload()
+                }
+            });
+        }
+        var a = 0;
+        function loading_user(){
+            $.ajax({
+                type:"POST",
+                url:"/user/give_user_page",
+                data:{},
+                success: function (response) {
+                    a = response;
+                    console.log(response)
+                    $('#profile_place').append(`
+                        <img src="../static/user_img/${response['result']['profile_pic_name']}" style="height:40px;"/>
+                        `)
+                    $('#profile_place').append(`<p>이름</p>`)
+                }
+            })
+        }
+        loading_user();
+    </script>
 </head>
 <body>
     <div id="insta-wrapper">
         <div class="insta-status-bar">
             <div class="insta-status-bar__img">
-                <img src="/static/image/home@3x.png" />
+                <img src="../static/image/home@3x.png" />
             </div>
             <div class="insta-status-bar__img">
-                <img src="/static/image/insta-logo.png" style="height:40px;"/>
+                <img src="../static/image/insta-logo.png" style="height:40px;"/>
             </div>
             <div class="insta-status-bar__img">
-                <img src="/static/image/dm@3x.png" />
+                <img src="../static/image/dm@3x.png" />
             </div>
         </div>
         <div id="insta-container">
-            <div class="container-header">
-                <img src="/static/image/nature.jpg" alt="">
-                <button>닉네임 설정</button>
+            <div id="profile_place" class="container-header">
             </div>
+            <hr>
+            <div class="file-upload">
+                <input style="width:300px;" type="text" id="title" placeholder="업로드할 이미지 제목을 입력해주세요">
+                <input type="file" id="file">
+                <button onclick="image_post()" type="button" class="btn btn-secondary">업로드</button>
+            </div>
+            <hr>
             <div class="container-main">
                 <div class="container-main-sub">
                     <p>게시물</p>
@@ -43,7 +113,7 @@
                     <p>0</p>
                 </div>
             </div>
-            <div class="container-footer">
+            <div class="container-footer" id="container-footer">
                 <div class="card" style="width: 18rem;">
                     <div class="card-body">
                         <h5 class="card-title">Comment</h5>
@@ -99,21 +169,22 @@
                 </div>
             </div>
         </div>
+
         <div class="insta-nav">
             <div class="insta-nav__img">
-                <img src="/static/image/home@3x.png"/>
+                <img src="../static/image/home@3x.png"/>
             </div>
             <div class="insta-nav__img">
-                <img src="/static/image/search@3x.png"/>
+                <img src="../static/image/search@3x.png"/>
             </div>
             <div class="insta-nav__img">
-                <img src="/static/image/trending@3x.png"/>
+                <img src="../static/image/trending@3x.png"/>
             </div>
             <div class="insta-nav__img">
-                <img src="/static/image/like@3x.png"/>
+                <img src="../static/image/like@3x.png"/>
             </div>
             <div class="insta-nav__img">
-                <img src="/static/image/home@3x.png"/>
+                <img src="../static/image/home@3x.png"/>
             </div>
         </div>
     </div>
