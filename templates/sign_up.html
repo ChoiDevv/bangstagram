@@ -8,7 +8,6 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="../static/sha256.js"></script>
     <script>
-
         function submit_sign_up(){
             let email = $('#email').val()
             let hash_pwd = SHA256($('#password').val())
@@ -69,10 +68,10 @@
                 data: {'username_give':email},
                 success: function (response) {
                     if(response['result']=='success') {
-                        alert("사용가능한 이메일 입니다.");
+                        alert("이미 존재하는 이메일 입니다.");
                     }
                     else{
-                        alert("이미 존재하는 이메일 입니다.");
+                        alert("사용가능한 이메일 입니다.");
                     }
                 }
             });

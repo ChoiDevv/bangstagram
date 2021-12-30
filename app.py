@@ -127,7 +127,7 @@ def sign_up():
 def check_dup():
     get_id = request.form['username_give']
     # ID 중복확인
-    search_result = list(db.userinfo.find({'id': get_id}, {'_id':False}))
+    search_result = list(db.userinfo.find({'email': get_id}, {'_id':False}))
     if(len(search_result) != 0):#중z`복된 id가 존재한다.
         return jsonify({'result': 'success'})
     else:
