@@ -57,6 +57,23 @@
                 }
             });
         }
+        var a = 0;
+        function loading_user(){
+            $.ajax({
+                type:"POST",
+                url:"/user/give_user_page",
+                data:{},
+                success: function (response) {
+                    a = response;
+                    console.log(response)
+                    $('#profile_place').append(`
+                        <img src="../static/user_img/${response['result']['profile_pic_name']}" style="height:40px;"/>
+                        `)
+                    $('#profile_place').append(`<p>이름</p>`)
+                }
+            })
+        }
+        loading_user();
     </script>
 </head>
 <body>
@@ -73,9 +90,7 @@
             </div>
         </div>
         <div id="insta-container">
-            <div class="container-header">
-                <img src="../static/{{ img_info.img }}">
-                <p>이름</p>
+            <div id="profile_place" class="container-header">
             </div>
             <hr>
             <div class="file-upload">
