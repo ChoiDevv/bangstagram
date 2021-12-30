@@ -77,6 +77,9 @@
                 }
             });
         }
+        function goto_login(){
+            window.location.href='/login';
+        }
     </script>
     <script src="../static/main.js"></script>
 
@@ -141,7 +144,7 @@
 
         <div class="sign_up_form_footer_info">
             <div class="sign_up_form_footer_text_wrapper">
-                <span class="sign_up_form_footer_text">계정이 있으신가요?</span> <a href="/bangstagram/templates/login.html">로그인</a>
+                <span class="sign_up_form_footer_text">계정이 있으신가요?</span> <a onclick="goto_login()" style="color:#0095f6;">로그인</a>
             </div>
         </div>
         <div class="sign_up_form_footer">
