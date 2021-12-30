@@ -6,16 +6,7 @@
     <link rel="stylesheet" href="../static/sign_up.css">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<<<<<<< HEAD
-<<<<<<< HEAD
     <script src="../static/sha256.js"></script>
-=======
-    <script src="/bangstagram/static/sha256.js"></script>
->>>>>>> bbf7df2648cacccf40103f489967af14a62ada9b
-
-=======
-    <script src="../static/sha256.js"></script>
->>>>>>> b7976d06378cc34b908fbab8181418826e8b3c76
     <script>
         function submit_sign_up(){
             let email = $('#email').val()
@@ -28,10 +19,6 @@
             }
             console.log(email,name)
             $.ajax({
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> b7976d06378cc34b908fbab8181418826e8b3c76
                 type: "POST",
                 url: "/sign_up/save",
                 data: {email_give:email,
@@ -61,35 +48,6 @@
             else{
                 alert("비밀번호를 올바르게 입력하세요.");
                 temp_html=`<input class="sign_up_input" type="password" id="password_check" placeholder="passward_check" required>
-<<<<<<< HEAD
-=======
-            type: "POST",
-            url: "/signup",
-            data: {email_give:email,
-                    pwd_give:hash_pwd,
-                    name_give:name,
-                    nickname_give:nickname,
-                    gender_give:gender
-            },
-            success: function (response) {
-                alert(response["result"])
-            }
-        });
-
-            }
-
-        function check_pwd(){
-            let pwd = $('#password').val()
-            let pwd_check = $('#password_check').val()
-            let temp_html =``
-            if (pwd == pwd_check){
-                alert("확인되었습니다.")
-            }else{
-                alert("비밀번호를 올바르게 입력하세요.")
-                temp_html=`<input class="sign_up_input" type="password" id="password_check" placeholder="  비밀번호 확인" required>
->>>>>>> bbf7df2648cacccf40103f489967af14a62ada9b
-=======
->>>>>>> b7976d06378cc34b908fbab8181418826e8b3c76
                         <button class="passward_btn" onclick="check_pwd()">확인하기</button>
                 `;
                 $('#passward_check').empty();
@@ -128,17 +86,8 @@
             <h4 class="sign_up_header_text">친구들의 사진과 동영상을 보려면 가입하세요.</h4>
 
             <div class="sign_up_header_under">
-<<<<<<< HEAD
-                <img src="../static/image/facebook-logo-icon-.jpeg" >
-                <h5>Facebook으로 로그인</h5>
-=======
                 <img src="/bangstagram/static/image/facebook-logo-icon-.jpeg" >
                 <h5>Facebook으로 로그인 하지마세요^^</h5>
-<<<<<<< HEAD
->>>>>>> bbf7df2648cacccf40103f489967af14a62ada9b
-=======
->>>>>>> origin/master
->>>>>>> b7976d06378cc34b908fbab8181418826e8b3c76
             </div>
         </div>
 <div class="line-box"><span>또는</span></div>
@@ -195,12 +144,6 @@
             <div>
                 <span class="sign_up_form_footer_text">앱을 다운로드 하세요</span>
             </div>
-<<<<<<< HEAD
-            <div class="container_footer_stores">
-                <p><img id="apple" src="../static/image/appstore.png"></p>
-                <p><img id="google" src="../static/image/playstoer.png"></p>
-            </div>
-=======
             <div class="container_footer_stores_wrapper">
                 <div class="container_footer_stores">
                     <div id="apple_wrapper">
@@ -215,12 +158,7 @@
                     </div>
 
                 </div>
-        </div>
-<<<<<<< HEAD
->>>>>>> bbf7df2648cacccf40103f489967af14a62ada9b
-=======
->>>>>>> origin/master
->>>>>>> b7976d06378cc34b908fbab8181418826e8b3c76
+            </div>
         </div>
 
 
