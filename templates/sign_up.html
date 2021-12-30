@@ -8,16 +8,22 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="../static/sha256.js"></script>
     <script>
+
         function submit_sign_up(){
             let email = $('#email').val()
-            // let hash_pwd = SHA256($('#password').val())
+            let hash_pwd = SHA256($('#password').val())
             let name = $('#name').val()
             let nickname = $('#nickname').val()
             let gender = $('#gender').val()
-            if(gender != "male") {
-                gender = "female"
+            if(gender == "male") {
+                gender = "male"
+            } else if (gender == "female"){
+                gender = female
+            }else{
+                gender = "none"
             }
-            console.log(email,name)
+
+            console.log(email,gender)
             $.ajax({
                 type: "POST",
                 url: "/sign_up/save",
@@ -36,19 +42,19 @@
                     }
                 }
             });
+
         }
         function check_pwd(){
             let pwd = $('#password').val();
             let pwd_check = $('#password_check').val();
             let temp_html =``;
-            if (pwd == pwd_check){
-                //alert("확인되었습니다.");
-                console.log('ook');
+            if (pwd == pwd_check && pwd != ""){
+                alert("확인되었습니다.");
             }
             else{
                 alert("비밀번호를 올바르게 입력하세요.");
-                temp_html=`<input class="sign_up_input" type="password" id="password_check" placeholder="passward_check" required>
-                        <button class="passward_btn" onclick="check_pwd()">확인하기</button>
+                temp_html=`<input class="sign_up_input" type="password" id="password_check" placeholder="  비밀번호 확인" required>
+                        <button class="check_btn" onclick="check_pwd()">확인하기</button>
                 `;
                 $('#passward_check').empty();
                 $('#passward_check').append(temp_html);
@@ -87,12 +93,12 @@
 
             <div class="sign_up_header_under">
                 <img src="/bangstagram/static/image/facebook-logo-icon-.jpeg" >
-                <h5>Facebook으로 로그인 하지마세요^^</h5>
+                <span>Facebook으로 로그인 하지마세요^^</span>
             </div>
         </div>
 <div class="line-box"><span>또는</span></div>
         <div class="sign_up_middle_upper">
-            <form class="sign_up_form">
+            <div class="sign_up_form">
                 <div class="sign_up_header_email">
                     <div class="input_wrapper">
                         <input class="sign_up_input" type="email" id="email" placeholder="  휴대폰 번호 또는 이메일 주소" required>
@@ -105,6 +111,7 @@
                         <option disabled selected>성별을 선택하세요</option>
                         <option id="gender" value="male"> 남성</option>
                         <option value="female"> 여성</option>
+                        <option value="none"> 선택하지않음</option>
                     </select>
                 </div>
                 <div class="input_wrapper">
@@ -126,7 +133,7 @@
                     </div>
                 </div>
 
-            </form>
+            </div>
         </div>
         <div class="sign_up_middle_lower">
             <div class="sign_up_submit">
