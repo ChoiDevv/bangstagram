@@ -68,11 +68,6 @@ def sign_up():
     else:
         return jsonify({'result': 'fail'})
     # DB에 저장
-<<<<<<< HEAD
-=======
-    return jsonify({'result': 'success'})
-
->>>>>>> bbf7df2648cacccf40103f489967af14a62ada9b
 
 @app.route('/sign_up/check_dup', methods=['POST'])
 def check_dup():
