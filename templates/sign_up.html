@@ -6,19 +6,25 @@
     <link rel="stylesheet" href="../static/sign_up.css">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<<<<<<< HEAD
     <script src="../static/sha256.js"></script>
+=======
+    <script src="/bangstagram/static/sha256.js"></script>
+>>>>>>> bbf7df2648cacccf40103f489967af14a62ada9b
 
     <script>
         function submit_sign_up(){
             let email = $('#email').val()
-            let hash_pwd = SHA256($('#password').val())
+            // let hash_pwd = SHA256($('#password').val())
             let name = $('#name').val()
             let nickname = $('#nickname').val()
             let gender = $('#gender').val()
             if(gender != "male") {
-                gender = "femal"
+                gender = "female"
             }
+            console.log(email,name)
             $.ajax({
+<<<<<<< HEAD
                 type: "POST",
                 url: "/sign_up/save",
                 data: {email_give:email,
@@ -48,13 +54,60 @@
             else{
                 alert("비밀번호를 올바르게 입력하세요.");
                 temp_html=`<input class="sign_up_input" type="password" id="password_check" placeholder="passward_check" required>
+=======
+            type: "POST",
+            url: "/signup",
+            data: {email_give:email,
+                    pwd_give:hash_pwd,
+                    name_give:name,
+                    nickname_give:nickname,
+                    gender_give:gender
+            },
+            success: function (response) {
+                alert(response["result"])
+            }
+        });
+
+            }
+
+        function check_pwd(){
+            let pwd = $('#password').val()
+            let pwd_check = $('#password_check').val()
+            let temp_html =``
+            if (pwd == pwd_check){
+                alert("확인되었습니다.")
+            }else{
+                alert("비밀번호를 올바르게 입력하세요.")
+                temp_html=`<input class="sign_up_input" type="password" id="password_check" placeholder="  비밀번호 확인" required>
+>>>>>>> bbf7df2648cacccf40103f489967af14a62ada9b
                         <button class="passward_btn" onclick="check_pwd()">확인하기</button>
                 `;
                 $('#passward_check').empty();
                 $('#passward_check').append(temp_html);
             }
         }
+
+        function check_id(){
+            let email = $('#email').val()
+            $.ajax({
+                type: 'GET',
+                url: '/sign_up/check_dup',
+                data: {},
+                success: function (response) {
+                    let rows = response['list']
+                    for(let i=0; i < rows.length; i++) {
+                        let db_email = rows[i]['email']
+                        if (email == db_email){
+                           alert("중복된 이메일입니다.")
+                           break
+                       }
+                    }
+                    alert("사용가능한 이메일 입니다.")
+                }
+            });
+        }
     </script>
+    <script src="../static/main.js"></script>
 
 </head>
 <body>
@@ -65,38 +118,48 @@
             <h4 class="sign_up_header_text">친구들의 사진과 동영상을 보려면 가입하세요.</h4>
 
             <div class="sign_up_header_under">
+<<<<<<< HEAD
                 <img src="../static/image/facebook-logo-icon-.jpeg" >
                 <h5>Facebook으로 로그인</h5>
+=======
+                <img src="/bangstagram/static/image/facebook-logo-icon-.jpeg" >
+                <h5>Facebook으로 로그인 하지마세요^^</h5>
+>>>>>>> bbf7df2648cacccf40103f489967af14a62ada9b
             </div>
         </div>
-
+<div class="line-box"><span>또는</span></div>
         <div class="sign_up_middle_upper">
             <form class="sign_up_form">
-                <div class="input_wrapper">
-                    <input class="sign_up_input" type="email" id="email" placeholder="휴대폰 번호 또는 이메일 주소" required>
-                </div>
-                <div class="input_wrapper">
-                    <div class="sign_up_form_radio">
-                        <input id="gender" class="sign_up_input" type="radio" value="male" name="gender"><p>남성</p>
-                        <input  class="sign_up_input" type="radio" value="female" name="gender">여성
+                <div class="sign_up_header_email">
+                    <div class="input_wrapper">
+                        <input class="sign_up_input" type="email" id="email" placeholder="  휴대폰 번호 또는 이메일 주소" required>
+                        <button class="check_btn" onclick="check_id()">중복확인</button>
                     </div>
                 </div>
+
                 <div class="input_wrapper">
-                    <input class="sign_up_input" type="text" id="nmae" placeholder="성명">
+                    <select class="sign_up_input" name ="gender">
+                        <option disabled selected>성별을 선택하세요</option>
+                        <option id="gender" value="male"> 남성</option>
+                        <option value="female"> 여성</option>
+                    </select>
+                </div>
+                <div class="input_wrapper">
+                    <input class="sign_up_input" type="text" id="name" placeholder="  성명">
                 </div>
 
                 <div class="input_wrapper">
-                    <input class="sign_up_input" type="text" id="nickname" placeholder="사용자 이름">
+                    <input class="sign_up_input" type="text" id="nickname" placeholder="  사용자 이름">
                 </div>
 
                 <div class="input_wrapper">
-                    <input class="sign_up_input" type="password" id="password" placeholder="passward" required>
+                    <input class="sign_up_input" type="password" id="password" placeholder="  비밀번호" required>
                 </div>
 
                 <div class="input_wrapper">
                     <div id="passward_check">
-                        <input class="sign_up_input" type="password" id="password_check" placeholder="passward_check" required>
-                        <button class="passward_btn" onclick="check_pwd()">확인하기</button>
+                        <input class="sign_up_input" type="password" id="password_check" placeholder="  비밀번호 확인" required>
+                        <button class="check_btn" onclick="check_pwd()">확인하기</button>
                     </div>
                 </div>
 
@@ -111,25 +174,46 @@
 
         <div class="sign_up_form_footer_info">
             <div class="sign_up_form_footer_text_wrapper">
-                <span class="sign_up_form_footer_text">계정이 있으신가요?</span> <a href="">로그인</a>
+                <span class="sign_up_form_footer_text">계정이 있으신가요?</span> <a href="/bangstagram/templates/login.html">로그인</a>
             </div>
         </div>
         <div class="sign_up_form_footer">
             <div>
                 <span class="sign_up_form_footer_text">앱을 다운로드 하세요</span>
             </div>
+<<<<<<< HEAD
             <div class="container_footer_stores">
                 <p><img id="apple" src="../static/image/appstore.png"></p>
                 <p><img id="google" src="../static/image/playstoer.png"></p>
             </div>
+=======
+            <div class="container_footer_stores_wrapper">
+                <div class="container_footer_stores">
+                    <div id="apple_wrapper">
+                        <a href="https://itunes.apple.com/app/instagram/id389801252?pt=428156&ct=igweb.signupPage.badge&mt=8&vt=lo">
+                           <img id="apple" src="/bangstagram/static/image/appstore.png">
+                        </a>
+                    </div>
+                    <div id="google_wrapper">
+                        <a href="https://play.google.com/store/apps/details?id=com.instagram.android&referrer=utm_source%3Dinstagramweb%26utm_campaign%3DsignupPage%26ig_mid%3D77FFAF73-A36F-466B-84E4-2C6232EBE8D1%26utm_content%3Dlo%26utm_medium%3Dbadge">
+                            <img id="google" src="/bangstagram/static/image/playstoer.png">
+                        </a>
+                    </div>
+
+                </div>
+        </div>
+>>>>>>> bbf7df2648cacccf40103f489967af14a62ada9b
         </div>
 
+
+
         <div class="sign_up_form_footer_plus">
-            <div class="sign_up_form_footer_plus_upper">
-                <p>Meta</p> <p>소개</p> <p>블로그</p> <p>조원정보</p>
-            </div>
+<!--            <div class="sign_up_form_footer_plus_upper">-->
+<!--                <a href="">소개 |</a>-->
+<!--                <a href=""> 팀원 </a>-->
+<!--            </div>-->
             <div class="sign_up_form_footer_plus_lower">
-                <p>개인정보처리방침</p> <p>약관</p> <p>인기계정</p> <p>해시태그</p> <p>위치</p>
+                <p>copyright 아이디어뱅크 11번창구</p>
             </div>
         </div>
     </div>
