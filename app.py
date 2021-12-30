@@ -79,44 +79,5 @@ def check_dup():
     else:
         return jsonify({'result': 'fail'})
 
-################################################################# instagram.html
-@app.route('/instagram', methods=['GET'])
-def user_get():
-    # 이 자리에 DB에서 불러와야 함 user_doc =
-    return jsonify({'list': userdoc})
-
-
-@app.route('/instagram', methods=['POST'])
-def user_post():
-    title_receive = request.form['title_give']
-    comment_receive = request.form['comment_give']
-    user_doc = {
-        'title': title_receive,
-        'comment': comment_receive
-    }
-    print(user_doc) # 이 자리에 DB에 insert 해야함
-    return jsonify({'msg': '포스팅이 완료되었습니다.'})
-
-################################################################# comment.html(html명 아직 모름)
-@app.route('/comment', methods=['GET'])
-def user_get2():
-    # 이 자리에 DB에서 불러와야 함 user_doc =
-    return jsonify({'list': userdoc})
-
-
-@app.route('/comment', methods=['POST'])
-def user_post2():
-    title_receive = request.form['title_give']
-    comment_receive = request.form['comment_give']
-    user_doc = {
-        'title': title_receive,
-        'comment': comment_receive
-    }
-    print(user_doc) # 이 자리에 DB에 insert 해야함
-    return jsonify({'msg': '포스팅이 완료되었습니다.'})
-
-# 한 db에서 보낼수 있나? 테스트할 필요성 있을듯
-
-
 if __name__ == '__main__':
     app.run('0.0.0.0', port=5000, debug=True)
