@@ -24,7 +24,6 @@ def home():
     token_receive = request.cookies.get('mytoken')
     try:
         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
-
         #print(payload)
         return render_template('index.html')
     except jwt.ExpiredSignatureError:
@@ -50,7 +49,7 @@ def sign_in():
         jwt_token = jwt.encode(header, SECRET_KEY, algorithm='HS256')
         return jsonify({'result': 'success', 'time_token': jwt_token})
     else:
-        return jsonify({'result': 'fail', 'msg':'아이디/비밀번호가 정확하지 않습니다.'})
+        return jsonify({'result': 'fail', 'msg': '아이디/비밀번호가 정확하지 않습니다.'})
 
 @app.route('/sign_up')
 def sign_up_page():
