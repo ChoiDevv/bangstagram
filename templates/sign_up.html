@@ -10,7 +10,7 @@
     <script>
         function submit_sign_up(){
             let email = $('#email').val()
-            // let hash_pwd = SHA256($('#password').val())
+            let hash_pwd = SHA256($('#password').val())
             let name = $('#name').val()
             let nickname = $('#nickname').val()
             let gender = $('#gender').val()
@@ -60,17 +60,14 @@
             $.ajax({
                 type: 'GET',
                 url: '/sign_up/check_dup',
-                data: {},
+                data: {'username_give':email},
                 success: function (response) {
-                    let rows = response['list']
-                    for(let i=0; i < rows.length; i++) {
-                        let db_email = rows[i]['email']
-                        if (email == db_email){
-                           alert("중복된 이메일입니다.")
-                           break
-                       }
+                    if(response['result']=='success') {
+                        alert("사용가능한 이메일 입니다.");
                     }
-                    alert("사용가능한 이메일 입니다.")
+                    else{
+                        alert("이미 존재하는 이메일 입니다.");
+                    }
                 }
             });
         }

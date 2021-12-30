@@ -16,12 +16,16 @@ SECRET_KEY = 'SPARTA'
 client = MongoClient('mongodb+srv://test:sparta@cluster0.mgxkf.mongodb.net/Cluster0?retryWrites=true&w=majority')
 db = client.dbinstaclone
 #db.userinfo.insert_one({'id':'test', 'hash':'test'})
+#client = MongoClient('mongodb+srv://test:sparta@cluster0.mgxkf.mongodb.net/Cluster0?retryWrites=true&w=majority')
+#db = client.dbinstaclone
 
 @app.route('/')
 def home():
     token_receive = request.cookies.get('mytoken')
     try:
         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+
+        #print(payload)
         return render_template('index.html')
     except jwt.ExpiredSignatureError:
         return redirect(url_for("login", msg="로그인 시간이 만료되었습니다."))
@@ -51,6 +55,7 @@ def sign_in():
 @app.route('/sign_up')
 def sign_up_page():
     #msg = request.args.get("msg")
+    print('hello')
     return render_template('sign_up.html')
 
 @app.route('/sign_up/save', methods=['POST'])

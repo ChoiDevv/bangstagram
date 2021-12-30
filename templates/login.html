@@ -24,7 +24,6 @@
                     success: function (response) {
                         if (response['result'] == 'success') {
                             $.cookie('mytoken', response['time_token']);
-
                             alert('로그인 완료')
                             window.location.href = '/'
                         } else {
@@ -33,9 +32,10 @@
                     }
                 })
             }
-
+            function sign_up() {
+                window.location.href='/sign_up';
+            }
         </script>
-
     </head>
 <body>
     <div class="container">
@@ -50,7 +50,7 @@
             </div>
             <button class="button" onclick="login()">로그인</button>
         </div>
-        <p class="sign_up">Sign up</p>
+        <p class="sign_up" onclick="sign_up()">Sign up</p>
     </div>
 </div>
 </body>
