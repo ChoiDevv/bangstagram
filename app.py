@@ -30,7 +30,7 @@ def home():
     try:
         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
         print(payload['id'])
-        return render_template('index.html')
+        return render_template('main.html')
     except jwt.ExpiredSignatureError:
         return redirect(url_for("login", msg="로그인 시간이 만료되었습니다."))
     except jwt.exceptions.DecodeError:
@@ -118,6 +118,20 @@ def post_user_page():
     except jwt.exceptions.DecodeError:
         return redirect(url_for("login", msg="로그인 정보가 존재하지 않습니다."))
 
+@app.route('/give_main_page', methods=['POST'])
+def post_main_page():
+    print('hi')
+    token_receive = request.cookies.get('mytoken')
+    try:
+        pages = int(request.form['pages'])
+        payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+        post_lists = list(db_post.postinfo.find({'post_number':{'$gte':pages,'$lt':pages+5}}, {'_id':False}))
+        return jsonify({'result': post_lists})
+    except jwt.ExpiredSignatureError:
+        return redirect(url_for("login", msg="로그인 시간이 만료되었습니다."))
+    except jwt.exceptions.DecodeError:
+        return redirect(url_for("login", msg="로그인 정보가 존재하지 않습니다."))
+
 @app.route('/sign_up/save', methods=['POST'])
 def sign_up():
     # 회원가입
@@ -181,15 +195,19 @@ def file_upload():#새 글 작성 버젼임
         #f.save(os.path.join(app.config['UPLOAD_FOLDER'], 'tmp.png'))
         file.save(cur_path)
 
+        userinfo_find = list(db.userinfo.find({"email":payload['id']}))
+        nickname = userinfo_find[0]['id']
         doc = {'title': title_receive, 'img': f'{filename}.{extension}'}
         db_imgs.img.insert_one(doc)
         doc_for_post = {
+            'post_number': db_post.postinfo.count_documents({})+1,
             'img': f'{filename}.{extension}',
             'email': payload['id'],
             'like':[],
             'contents': contents,
             'comment': {},
-            'post_time' : post_time
+            'post_time' : post_time,
+            'nickname':nickname
         }
         db_post.postinfo.insert_one()
         return jsonify({'result': 'success'})
@@ -236,4 +254,7 @@ def user_file_upload():
 
 if __name__ == '__main__':
     #db_post.postinfo.insert_one({'img': '3ebpw-2021-12-31-09-06-08.png', 'email': 'test@gmail.com', 'like': [], 'contents': '', 'comment': {}, 'post_time':'test_time'})
+    #print(dir(db_post.postinfo))
+    #print(db_post.postinfo.count_documents({}))
+    #print(db.userinfo.count_documents({}))
     app.run('0.0.0.0', port=5000, debug=True)

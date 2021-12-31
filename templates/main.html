@@ -5,21 +5,19 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../static/main.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <title>Instagram</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <script>
-        $(document).ready(function () {
-            show_post();
-        });
+        var a =0;
         function show_post(){
             $.ajax({
-                type: "GET",
-                url: "/main",
-                data: {},
-                success: function('data'){     //전체 게시글 정보
-                let data = data;
-
+                type: "POST",
+                url: "/give_main_page",
+                data: {'pages':1},
+                success: function(data){     //전체 게시글 정보
+                    a = data;
                 let temp_html =``
                 for (let i=0; i < data.length; i++){
                     let nickname = data[i]['nickname'];
@@ -77,8 +75,8 @@
                     $("#container").append(temp_html)
                 }
             }
-        })
 
+        })
         }
     // function like_up(){
     //     let cur_like_cnt = $('#like_cnt')
@@ -97,6 +95,7 @@
     //             }
     //         });
     // }
+        show_post();
     </script>
 </head>
 <body>
