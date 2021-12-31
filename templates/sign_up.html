@@ -9,29 +9,70 @@
     <script src="../static/sha256.js"></script>
     <script>
         function submit_sign_up() {
+            let pwd = $('#password').val();
+            let pwd_check = $('#password2').val();
+            let temp_html =``;
+
             let email = $('#text').val()
-            let password = $('#password').val()
             let hash_pwd = SHA256($('#password').val())
             let name = $('#name').val()
             let nickname = $('#nickname').val()
             let gender = $('#gender').val()
-            if (gender == "male") {
-                gender = "male"
-            } else if (gender == "female") {
-                gender = female
-            } else {
-                gender = "none"
-            }
+
+
             if (email == '') {
-                alert("email을 작성 해주세요.")
+                alert("이메일을 작성 해주세요.")
                 return false
-            } else if (name == '') {
+            }else if(!email_check(email)){
+                alert("이메일을 확인해주세요.")
+                return false
+            }else if(email_check(email)){
+                $.ajax({
+                type: 'POST',
+                url: '/sign_up/check_dup',
+                data: {'username_give':email},
+                success: function (response){
+                    if(response['result']=='success') {
+                        alert("이메일 중복확인을 해주세요.");
+                        return false
+                    }
+                }
+                })
+            }
+            else if (name == '') {
                 alert("성명을 작성해주세요.")
                 return false
             } else if (nickname == ''){
                 alert("사용자 이름을 작성해주세요.")
             return false
             }
+
+            if(!is_password(pwd)){
+                alert("올바른 비밀번호 형식을 입력하세요")
+                temp_html=` <div class="input_wrapper">
+                                <input class="sign_up_input" type="password" id="password" placeholder="  비밀번호  영문, 숫자, 특수문자를 포함하세요(8~20자)" required>
+                            </div>
+                            <div class="input_wrapper">
+                                <div id="password_check2">
+                                    <input class="sign_up_input" type="password" id="password2" placeholder="  비밀번호 확인" required>
+                                </div>
+                            </div>
+                `;
+                $('#password_check').empty();
+                $('#password_check').append(temp_html);
+                return false
+
+            }else if(pwd != pwd_check){
+                alert("비밀번호가 일치하지 않습니다.");
+                    temp_html=` <input class="sign_up_input" type="password" id="password2" placeholder="  비밀번호 확인" required>
+                                <button class="check_btn" onclick="check_pwd()">확인하기</button>
+                `;
+                $('#password_check2').empty();
+                $('#password_check2').append(temp_html);
+                return false
+            }
+
+
             else{
                 $.ajax({
                 type: "POST",
@@ -58,43 +99,6 @@
         function is_password(asValue) {
             var regExp = /^(?=.*\d)(?=.*[a-zA-Z])[0-9a-zA-Z!@#$%^&*]{8,20}$/;
             return regExp.test(asValue);
-        }
-        function check_pwd(){
-            let pwd = $('#password').val();
-            let pwd_check = $('#password2').val();
-            let temp_html =``;
-
-            if(!is_password(pwd)){
-                alert("올바른 비밀번호 형식을 입력하세요")
-                temp_html=` <div class="input_wrapper">
-                                <input class="sign_up_input" type="password" id="password" placeholder="  비밀번호   영문, 숫자, 특수문자를 포함하세요" required>
-                            </div>
-                            <div class="input_wrapper">
-                                <div id="password_check2">
-                                    <input class="sign_up_input" type="password" id="password2" placeholder="  비밀번호 확인" required>
-                                    <button class="check_btn" onclick="check_pwd()">확인하기</button>
-                                </div>
-                            </div>
-                `;
-                $('#password_check').empty();
-                $('#password_check').append(temp_html);
-
-            }else{
-                if (pwd == pwd_check){
-                alert("확인되었습니다.");
-                }
-                else{
-                    alert("비밀번호가 일치하지 않습니다.");
-                    temp_html=` <input class="sign_up_input" type="password" id="password2" placeholder="  비밀번호 확인" required>
-                                <button class="check_btn" onclick="check_pwd()">확인하기</button>
-                `;
-                $('#password_check2').empty();
-                $('#password_check2').append(temp_html);
-                }
-
-
-
-            }
         }
         function email_check(email) {
             var reg = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
@@ -156,9 +160,9 @@
                 </div>
 
                 <div class="input_wrapper">
-                    <select class="sign_up_input" name ="gender">
+                    <select id="gender" class="sign_up_input" name ="gender">
                         <option disabled selected>성별을 선택하세요</option>
-                        <option id="gender" value="male"> 남성</option>
+                        <option value="male"> 남성</option>
                         <option value="female"> 여성</option>
                         <option value="none"> 선택하지않음</option>
                     </select>
@@ -173,12 +177,11 @@
 
                 <div id="password_check">
                     <div class="input_wrapper">
-                        <input class="sign_up_input" type="password" id="password" placeholder="  비밀번호  영문, 숫자, 특수문자를 포함하세요" required>
+                        <input class="sign_up_input" type="password" id="password" placeholder="  비밀번호  영문, 숫자, 특수문자를 포함하세요(8~20자)" required>
                     </div>
                     <div class="input_wrapper">
                         <div id="password_check2">
                             <input class="sign_up_input" type="password" id="password2" placeholder="  비밀번호 확인" required>
-                            <button class="check_btn" onclick="check_pwd()">확인하기</button>
                         </div>
                     </div>
                 </div>
