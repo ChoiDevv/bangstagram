@@ -8,22 +8,32 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="../static/sha256.js"></script>
     <script>
-        function submit_sign_up(){
-            let email = $('#email').val()
+        function submit_sign_up() {
+            let email = $('#text').val()
+            let password = $('#password').val()
             let hash_pwd = SHA256($('#password').val())
             let name = $('#name').val()
             let nickname = $('#nickname').val()
             let gender = $('#gender').val()
-            if(gender == "male") {
+            if (gender == "male") {
                 gender = "male"
-            } else if (gender == "female"){
+            } else if (gender == "female") {
                 gender = female
-            }else{
+            } else {
                 gender = "none"
             }
-
-            console.log(email,gender)
-            $.ajax({
+            if (email == '') {
+                alert("email을 작성 해주세요.")
+                return false
+            } else if (name == '') {
+                alert("성명을 작성해주세요.")
+                return false
+            } else if (nickname == ''){
+                alert("사용자 이름을 작성해주세요.")
+            return false
+            }
+            else{
+                $.ajax({
                 type: "POST",
                 url: "/sign_up/save",
                 data: {email_give:email,
@@ -41,25 +51,56 @@
                     }
                 }
             });
+            }
 
+
+        }
+        function is_password(asValue) {
+            var regExp = /^(?=.*\d)(?=.*[a-zA-Z])[0-9a-zA-Z!@#$%^&*]{8,20}$/;
+            return regExp.test(asValue);
         }
         function check_pwd(){
             let pwd = $('#password').val();
-            let pwd_check = $('#password_check').val();
+            let pwd_check = $('#password2').val();
             let temp_html =``;
-            if (pwd == pwd_check && pwd != ""){
-                alert("확인되었습니다.");
-            }
-            else{
-                alert("비밀번호를 올바르게 입력하세요.");
-                temp_html=`<input class="sign_up_input" type="password" id="password_check" placeholder="  비밀번호 확인" required>
-                        <button class="check_btn" onclick="check_pwd()">확인하기</button>
+
+            if(!is_password(pwd)){
+                alert("올바른 비밀번호 형식을 입력하세요")
+                temp_html=` <div class="input_wrapper">
+                                <input class="sign_up_input" type="password" id="password" placeholder="  비밀번호   영문, 숫자, 특수문자를 포함하세요" required>
+                            </div>
+                            <div class="input_wrapper">
+                                <div id="password_check2">
+                                    <input class="sign_up_input" type="password" id="password2" placeholder="  비밀번호 확인" required>
+                                    <button class="check_btn" onclick="check_pwd()">확인하기</button>
+                                </div>
+                            </div>
                 `;
-                $('#passward_check').empty();
-                $('#passward_check').append(temp_html);
+                $('#password_check').empty();
+                $('#password_check').append(temp_html);
+
+            }else{
+                if (pwd == pwd_check){
+                alert("확인되었습니다.");
+                }
+                else{
+                    alert("비밀번호가 일치하지 않습니다.");
+                    temp_html=` <input class="sign_up_input" type="password" id="password2" placeholder="  비밀번호 확인" required>
+                                <button class="check_btn" onclick="check_pwd()">확인하기</button>
+                `;
+                $('#password_check2').empty();
+                $('#password_check2').append(temp_html);
+                }
+
+
+
             }
         }
+        function email_check(email) {
+            var reg = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
+            return reg.test(email);
 
+        }
         function check_id(){
             let email = $('#email').val()
             $.ajax({
@@ -67,12 +108,21 @@
                 url: '/sign_up/check_dup',
                 data: {'username_give':email},
                 success: function (response) {
-                    if(response['result']=='success') {
-                        alert("이미 존재하는 이메일 입니다.");
+                    if (email ==""){
+                        alert("email을 입력해주세요")
+                        return false
+                    }else{
+                        if (!email_check(email)){
+                            alert("이메일 형식에 맞춰 입력해주세요");
+                        }
+                        else if(response['result']=='success') {
+                            alert("이미 존재하는 이메일 입니다.");
+                        }
+                        else{
+                            alert("사용가능한 이메일 입니다.");
+                        }
                     }
-                    else{
-                        alert("사용가능한 이메일 입니다.");
-                    }
+
                 }
             });
         }
@@ -97,10 +147,11 @@
         </div>
 <div class="line-box"><span>또는</span></div>
         <div class="sign_up_middle_upper">
+
             <div class="sign_up_form">
                 <div class="sign_up_header_email">
                     <div class="input_wrapper">
-                        <input class="sign_up_input" type="email" id="email" placeholder="   이메일 주소" required>
+                        <input class="sign_up_input" type="text" id="text" placeholder="   이메일 주소" required>
                         <button class="check_btn" onclick="check_id()">중복확인</button>
                     </div>
                 </div>
@@ -121,14 +172,15 @@
                     <input class="sign_up_input" type="text" id="nickname" placeholder="  사용자 이름">
                 </div>
 
-                <div class="input_wrapper">
-                    <input class="sign_up_input" type="password" id="password" placeholder="  비밀번호" required>
-                </div>
-
-                <div class="input_wrapper">
-                    <div id="passward_check">
-                        <input class="sign_up_input" type="password" id="password_check" placeholder="  비밀번호 확인" required>
-                        <button class="check_btn" onclick="check_pwd()">확인하기</button>
+                <div id="password_check">
+                    <div class="input_wrapper">
+                        <input class="sign_up_input" type="password" id="password" placeholder="  비밀번호  영문, 숫자, 특수문자를 포함하세요" required>
+                    </div>
+                    <div class="input_wrapper">
+                        <div id="password_check2">
+                            <input class="sign_up_input" type="password" id="password2" placeholder="  비밀번호 확인" required>
+                            <button class="check_btn" onclick="check_pwd()">확인하기</button>
+                        </div>
                     </div>
                 </div>
 
@@ -170,10 +222,7 @@
 
 
         <div class="sign_up_form_footer_plus">
-<!--            <div class="sign_up_form_footer_plus_upper">-->
-<!--                <a href="">소개 |</a>-->
-<!--                <a href=""> 팀원 </a>-->
-<!--            </div>-->
+
             <div class="sign_up_form_footer_plus_lower">
                 <p>copyright 아이디어뱅크 11번창구</p>
             </div>
