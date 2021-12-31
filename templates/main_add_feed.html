@@ -99,12 +99,15 @@
 
 
         //피드 사진 추가
+        //피드 사진 추가
         function posting() {
             let title = $('#title').val()
             let file = $('#file')[0].files[0]
+            let text = $('#text_box').val()
             let form_data = new FormData()
 
             form_data.append("title_give", title)
+            form_data.append("text_give", text)
             form_data.append("file_give", file)
 
             $.ajax({
@@ -117,6 +120,9 @@
                 success: function (response) {
                     alert(response["result"])
                     window.location.reload()
+                },
+                error: function (error) {
+                  console.log(error)
                 }
             });
         }
@@ -125,7 +131,6 @@
             let title = $('#find_title').val()
             document.getElementById('link').href = '/fileshow/' + title
         }
-
 
 
         // function like_up(){
@@ -213,6 +218,9 @@
                         <div class="container">
                             <div class="file-upload">
                                 <input style="width:300px;" type="text" id="title" placeholder="업로드할 이미지 제목을 입력해주세요">
+                            </div>
+                            <div>
+                            <input type="text" name="title" id="text_box">
                             </div>
                             <div class="file_select">
                                 <input type="file" id="file">
