@@ -9,6 +9,24 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
     <script>
+        window.onload = function() {
+
+        function onClick() {
+            document.querySelector('.modal-wrap').style.display ='block';
+            document.querySelector('.black-bg').style.display ='block';
+        }
+        function offClick() {
+            document.querySelector('.modal-wrap').style.display ='none';
+            document.querySelector('.black-bg').style.display ='none';
+        }
+
+        document.getElementById('modal-btn').addEventListener('click', onClick);
+        document.querySelector('.modal-close').addEventListener('click', offClick);
+
+        };
+    </script>
+
+    <script>
         function image_post() {
             let title = $('#title').val()
             let file = $('#file')[0].files[0]
@@ -37,19 +55,25 @@
                 success: function (response) {
                     let user_list = response['result'];
                     let follow = user_list['follow'].length;
-                    let follower = user_list['follower'].length;
+                    let follower = user_list['follower'].length; // 팔로우, 팔로워를 서버로부터 입력 받고 그 수 만큼을 선언
                     $('#profile_place').append(`
                         <img src="../static/user_img/${user_list['profile_pic_name']}" style="width: 20vw; height: 20vw; max-width: 180px; max-height: 180px; border-radius: 50%; margin-right: 10px;"/>
-                        `);
-                    $('#profile_place').append(`<p>${user_list['user_id']}</p>`);
-                    $('#post').append(`<p>${user_list['post_num']}</p>`);
-                    $('#follower').append(`<p>${follower}</p>`);
-                    $('#follow').append(`<p>${follow}</p>`);
-                    console.log(user_list);
-                    let comment_list = user_list['posts_list']
+                        `); // user_img로부터 받아온 이미지 출력
+                    $('#profile_place').append(`<p>${user_list['user_id']}</p>`); // 프로필 사진 옆 유저id
+                    $('#post').append(`<p>${user_list['post_num']}</p>`); // 게시물 수
+                    $('#follower').append(`<p>${follower}</p>`); // 팔로워 수
+                    $('#follow').append(`<p>${follow}</p>`); // 팔로우 수
+                    console.log(user_list); // user_list 디버깅
+                    let follower_list = user_list['follower']; // user_list 중 팔로워만 선언
+                    for(let i = 0; i < follower_list.length; i++) {
+                        let name = follower_list[i];
+                        let temp_follow_list = `<p>${name}</p>`;
+                        $('#modal-follower-text').append(temp_follow_list); // 팔로워 수만큼 인덱스를 나눠 0번째부터 name으로 초기화 / 모달 부분에 들어감
+                    }
+                    let comment_list = user_list['posts_list'] // user_list의 posts_list를 가져와 comment_list로 선언
                     for(let i = 0; i < comment_list.length; i++) {
-                        let comment = comment_list[i]['comment']
-                        let writer = user_list['user_id']
+                        let comment = comment_list[i]['comment'] // comment_list 안 0번째에서 'comment'라는 키 값을 가져와서 comment로 선언
+                        let writer = user_list['user_id'] // user_id
                         let temp_comment = `<div class="card" style="width: 18rem; margin-top: 10px;">
                                                 <div class="card-body text-center">
                                                     <h5 class="card-title">Comment</h5>
@@ -60,6 +84,7 @@
                                                 </ul>
                                             </div>`
                         $('#container-footer').append(temp_comment);
+
                     }
 
                 }
@@ -72,7 +97,7 @@
     <div id="insta-wrapper">
         <div class="insta-status-bar">
             <div class="insta-status-bar__img">
-                <img src="../static/image/home@3x.png" />
+                <img src="../static/image/camera@3x.png" />
             </div>
             <div class="insta-status-bar__img">
                 <img src="../static/image/insta-logo.png" style="height:40px;"/>
@@ -99,17 +124,30 @@
             <hr>
             <div class="container-main">
                 <div class="container-main-sub">
-                    <p>팔로워</p>
+                    <div type="text">게시물</div>
                     <div id="post">
                     </div>
                 </div>
                 <div class="container-main-sub">
-                    <p>팔로워</p>
+                    <div type="button" id="modal-btn">팔로워</div>
+                    <div class="black-bg"></div>
+                    <div class="modal-wrap">
+                        <div class="modal-close">
+                            <a href="#">close</a>
+                        </div>
+                        <div class="modal-follower">
+                            <p id="follower-list">팔로워 리스트</p>
+                            <div id="modal-follower-text">
+                                <p>Opacity</p>
+                                <p>Test</p>
+                            </div>
+                        </div>
+                    </div>
                     <div id="follower">
                     </div>
                 </div>
                 <div class="container-main-sub">
-                    <p>팔로우</p>
+                    <div type="text">팔로우</div>
                     <div id="follow">
                     </div>
                 </div>
