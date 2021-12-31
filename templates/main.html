@@ -28,38 +28,29 @@
                 url: "/give_main_page",
                 data: {'pages':1},
                 success: function(data){     //전체 게시글 정보
-                    let cnt = data.length + 1
+                    let feed_list = data['result'];
+                    console.log(feed_list)
                     let temp_html =``
-                    for (let i=0; i < cnt; i++){
-                        let nickname = data[i]['nickname'];
-                        let user_profile_img = data[i]['profile_img'];
-                        let post_img = data[i]['img'];
-                        let post_contents = data[i]['contents'];
-                        let like_cnt = data[i]['like'].length;
-                        let like_name = data[i]['like'][0];
-                        let comment_person = data[i]['stranger']
-                        let comment_content = data[i]['comment'];
-                        let posting_time = data[i]['post_time'];
+                    for (let i=0; i < feed_list.length; i++) {
+                        let nickname = feed_list[i]['nickname'];
+                        let user_profile_img = feed_list[i]['profile_img'];
+                        let post_img = feed_list[i]['img'];
+                        let post_contents = feed_list[i]['contents'];
+                        let like_cnt = feed_list[i]['like'].length;
+                        let like_name = feed_list[i]['like'][0];
+                        let comment_content = feed_list[i]['comment'];
+                        let posting_time = feed_list[i]['post_time'];
 
-                        let cur_time = new Date();
-                        let old_time = data[i]['post_time']
+                        let cur_time = String(new Date()).split(' ')[4].split(':')
+                        let old_time = String(feed_list[i]['post_time']).split(' ')[4].split(':')
 
-                        let old_time_hour = old_time[16:18]
-                        let cur_time_hour = cur_time[16:18]
+                        let old_time_hour = old_time[0]
+                        let cur_time_hour = cur_time[0]
 
-                        let old_time_min = old_time[19:21]
-                        let cur_time_min = cur_time[19:21]
+                        let old_time_min = old_time[1]
+                        let cur_time_min = cur_time[1]
 
-                        if(old_time_hour != cur_time_hour){
-                            posting_time = str(int(cur_time_hour)-int(old_time_hour)) + "시간 전"
-                        }else if(old_time_hour == cur_time_hour){
-                            posting_time = str(int(cur_time_min) - int(old_time_min)) + "분 전"
-                        }else{
-                            posting_time = ''
-                        }
-
-                        comment_person.append("person_give", person)
-                        comment_content.append("content_give", comment)
+                        $('#comment_content').append("content_give", comment)
 
                         temp_html=`
                     <div id="post-container">
@@ -176,7 +167,7 @@
                         </div>
                         <div class="comment-container">
                             <p class="comment-person">stranger</p>
-                            <p class="comment-content">댓글입니다.</p>
+                            <p id="comment-content">댓글입니다.</p>
                         </div>
                         <div>
                             <p class="posting_time">8시간전</p>
