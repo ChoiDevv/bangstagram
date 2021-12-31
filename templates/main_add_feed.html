@@ -101,12 +101,10 @@
         //피드 사진 추가
         //피드 사진 추가
         function posting() {
-            let title = $('#title').val()
             let file = $('#file')[0].files[0]
             let text = $('#text_box').val()
             let form_data = new FormData()
 
-            form_data.append("title_give", title)
             form_data.append("text_give", text)
             form_data.append("file_give", file)
 
@@ -190,10 +188,15 @@
                         <img src="https://cdn.topstarnews.net/news/photo/201811/526783_192798_1141.jpg">
                         <p><strong>이용자</strong>님 <span id="like_cnt">7,585명</span>이 좋아합니다</p>
                     </div>
-                    <div class="post-content-wrapper">
-                        <p class="post-author">0~0</p>
-                        <p class="post-content">test입니다</p>
+                    <div class="feed-wrapper">
+                        <p id="post-author">0~0</p>
+                        <p id="post-content">test입니다</p>
+                        <div id="comment-container">
+                            <p id="comment-author">author</p>
+                            <p id="comment-content">댓글입니다.</p>
+                        </div>
                     </div>
+
                 </div>
             </div>
         </div>
@@ -216,20 +219,12 @@
                     <div class="bg"></div>
                     <div class="modalBox">
                         <div class="container">
-                            <div class="file-upload">
-                                <input style="width:300px;" type="text" id="title" placeholder="업로드할 이미지 제목을 입력해주세요">
-                            </div>
                             <div>
                             <input type="text" name="title" id="text_box">
                             </div>
                             <div class="file_select">
                                 <input type="file" id="file">
                                 <button class="upload_button" onclick="posting()">업로드</button>
-                            </div>
-                            <div class="sho_image">
-                                <input style="width:300px;" onchange="find_img()" type="text" id="find_title"
-                                       placeholder="볼 이미지의 제목을 입력해주세요">
-                                <a id='link' href="#">업로드 한 이미지 보기</a>
                             </div>
                         </div>
                         <button class="closeBtn">✖</button>
