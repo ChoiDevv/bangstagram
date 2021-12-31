@@ -57,18 +57,24 @@ body {
     width: 100%;
     display: flex;
     justify-content: space-around;
-    background-color: gray;
+    background-color: #c4c4c4;
     margin-top: 30px;
 }
 
 .container-main-sub {
     display: flex;
     flex-direction: column;
-    justify-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.container-main-sub p {
+    margin-top: 13px;
 }
 
 .container-footer {
     margin-top: 10px;
+    margin-bottom: 70px;
 }
 
 .insta-nav {
@@ -82,4 +88,3 @@ body {
     z-index: 1;
     background-color: white;
 }
-
