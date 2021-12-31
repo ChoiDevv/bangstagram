@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../static/main.css">
+    <link rel="stylesheet" href="../static/add_feed.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <title>Instagram</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <script>
+        var imgs = '<img src=""><br />';
+        imgs += '<img src=""><br />';
+        imgs += '<img src=""><br />';
+
+        $(document).ready(function () {
+            //스크롤 발생 이벤트 처리
+            $('#container').scroll(function () {
+                var scrollT = $(this).scrollTop(); //스크롤바의 상단위치
+                var scrollH = $(this).height(); //스크롤바를 갖는 div의 높이
+                var contentH = $('#post-container').height(); //문서 전체 내용을 갖는 div의 높이
+                if (scrollT + scrollH + 1 >= contentH) { // 스크롤바가 아래 쪽에 위치할 때
+                    $('#post-container').append(imgs);
+                }
+            });
+        });
+
+        var a = 0;
+        function show_post() {
+            $.ajax({
+                type: "POST",
+                url: "/give_main_page",
+                data: {'pages': 1},
+                success: function (data) {     //전체 게시글 정보
+                    a = data;
+                    let temp_html = ``
+                    for (let i = 0; i < data.length; i++) {
+                        let nickname = data[i]['nickname'];
+                        let user_profile_img = data[i]['profile_img'];
+                        let post_img = data[i]['img'];
+                        let post_contents = data[i]['contents'];
+                        let like_cnt = data[i]['like'];
+                        let post_comment = data[i]['comment'];
+                        let posting_time = data[i]['post_time'];
+                        temp_html = `
+                <div id="post-container">
+                    <div class="post-wrapper">
+                        <div class="post-header">
+                            <div class="left-wrapper">
+                                <img src="${user_profile_img}"/>
+                                <p>${nickname}</p>
+                            </div>
+                            <div class="right-wrapper">
+                                <img src="../static/image/more@3x.png">
+                            </div>
+                        </div>
+                        <div class="post-body">
+                            <img src="../static/user_img/${post_img}">
+                            <div class="post-icons-wrapper">
+                                <div class="left-wrapper">
+                                    <img class="post-icon" id="like_img" src="../static/image/like@3x.png">
+                                    <img class="post-icon-2" src="../static/image/comment@3x.png">
+                                    <img class="post-icon" src="../static/image/dm@3x.png">
+                                </div>
+                                <div class="right-wrapper">
+                                    <img src="../static/image/favorite@3x.png">
+                                </div>
+                                <div>
+                                    <h3>${post_contents}</h3>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="post-footer">
+                            <div class="post-like-wrapper">
+                                <img src="https://cdn.topstarnews.net/news/photo/201811/526783_192798_1141.jpg">
+                                <p><strong>${nickname}</strong>님 <strong>외 <span id="like_cnt">${like_cnt}명</span></strong>이 좋아합니다</p>
+                            </div>
+                            <div class="post-content-wrapper">
+                                <p class="post-author">${nickname}</p>
+                                <p class="post-content">${post_comment}</p>
+                            </div>
+                            <div>
+                             <p class="posting_time">${posting_time}</p>
+
+                            </div>
+                        </div>
+                    </div>
+                 </div>
+                    `
+                        $("#container").append(temp_html)
+                    }
+                }
+
+            })
+        }
+
+
+        //피드 사진 추가
+        function posting() {
+            let title = $('#title').val()
+            let file = $('#file')[0].files[0]
+            let form_data = new FormData()
+
+            form_data.append("title_give", title)
+            form_data.append("file_give", file)
+
+            $.ajax({
+                type: "POST",
+                url: "/fileupload",
+                data: form_data,
+                cache: false,
+                contentType: false,
+                processData: false,
+                success: function (response) {
+                    alert(response["result"])
+                    window.location.reload()
+                }
+            });
+        }
+
+        function find_img() {
+            let title = $('#find_title').val()
+            document.getElementById('link').href = '/fileshow/' + title
+        }
+
+
+
+        // function like_up(){
+        //     let cur_like_cnt = $('#like_cnt')
+        //     let temp_html = ``
+        //     $.ajax({
+        //             type: 'POST',
+        //             url: '/main',
+        //             data: { like_cnt:cur_like_cnt+1},
+        //             success: function (response) {
+        //                 window.location.reload()
+        //                 temp_html=`${cur_like_cnt+1}
+        //                 `
+        //                 $('#like_cnt').empty()
+        //                 $('#like_cnt').append(temp_html)
+        //                 $('#like_cnt').attr('src', ../static/image/like2.png)
+        //             }
+        //         });
+        // }
+        show_post();
+    </script>
+</head>
+<body>
+<div id="main">
+    <div id="header">
+        <img class="header-icon" src="../static/image/camera@3x.png"/>
+        <img id="logo" src="../static/image/insta-logo.png"/>
+        <img class="header-icon" src="../static/image/dm@3x.png"/>
+    </div>
+    <div id="container" style="overflow-y: scroll;">
+        <div id="post-container">
+            <div class="post-wrapper">
+                <div class="post-header">
+                    <div class="left-wrapper">
+                        <img src="https://cdn.topstarnews.net/news/photo/201811/526783_192798_1141.jpg"/>
+                        <p>0~0</p>
+                    </div>
+                    <div class="right-wrapper">
+                        <img src="../static/image/more@3x.png">
+                    </div>
+                </div>
+                <div class="post-body">
+                    <img src="https://cdn.topstarnews.net/news/photo/201811/526783_192798_1141.jpg">
+                    <div class="post-icons-wrapper">
+                        <div class="left-wrapper">
+                            <img onclick="like_up()" class="post-icon" src="../static/image/like@3x.png">
+                            <img class="post-icon-2" src="../static/image/comment@3x.png">
+                            <img class="post-icon" src="../static/image/dm@3x.png">
+                        </div>
+                        <div class="right-wrapper">
+                            <img src="../static/image/favorite@3x.png">
+                        </div>
+                    </div>
+                </div>
+                <div class="post-footer">
+                    <div class="post-like-wrapper">
+                        <img src="https://cdn.topstarnews.net/news/photo/201811/526783_192798_1141.jpg">
+                        <p><strong>이용자</strong>님 <span id="like_cnt">7,585명</span>이 좋아합니다</p>
+                    </div>
+                    <div class="post-content-wrapper">
+                        <p class="post-author">0~0</p>
+                        <p class="post-content">test입니다</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="footer">
+        <div id="icon-wrapper">
+            <img src="../static/image/home.png" onclick="window.location.reload()"
+                 onmouseover="this.src='../static/image/home2.png'"
+                 onmouseout="this.src='../static/image/home.png'">
+
+            <img src="../static/image/search.png"
+                 onmouseover="this.src='../static/image/search2.png'"
+                 onmouseout="this.src='../static/image/search.png'">
+
+            <image type="button" src="../static/image/add_feed.png"
+                   onmouseover="this.src='../static/image/add_feed2.png'"
+                   onmouseout="this.src='../static/image/add_feed.png'" class="openBtn">
+
+                <div class="modal hidden">
+                    <div class="bg"></div>
+                    <div class="modalBox">
+                        <div class="container">
+                            <div class="file-upload">
+                                <input style="width:300px;" type="text" id="title" placeholder="업로드할 이미지 제목을 입력해주세요">
+                            </div>
+                            <div class="file_select">
+                                <input type="file" id="file">
+                                <button class="upload_button" onclick="posting()">업로드</button>
+                            </div>
+                            <div class="sho_image">
+                                <input style="width:300px;" onchange="find_img()" type="text" id="find_title"
+                                       placeholder="볼 이미지의 제목을 입력해주세요">
+                                <a id='link' href="#">업로드 한 이미지 보기</a>
+                            </div>
+                        </div>
+                        <button class="closeBtn">✖</button>
+                    </div>
+                </div>
+                <script>
+                    const open = () => {
+                        document.querySelector(".modal").classList.remove("hidden");
+                    }
+
+                    const close = () => {
+                        document.querySelector(".modal").classList.add("hidden");
+                    }
+
+                    document.querySelector(".openBtn").addEventListener("click", open);
+                    document.querySelector(".closeBtn").addEventListener("click", close);
+                    document.querySelector(".bg").addEventListener("click", close);
+
+                </script>
+
+            <img src="../static/image/like.png"
+                 onmouseover="this.src='../static/image/like2.png'"
+                 onmouseout="this.src='../static/image/like.png'">
+
+            <img src="../static/image/user.png"
+                 onmouseover="this.src='../static/image/user2.png'"
+                 onmouseout="this.src='../static/image/user.png'">
+        </div>
+    </div>
+</div>
+</body>
+</html>
