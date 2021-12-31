@@ -33,44 +33,6 @@ body {
     justify-content: flex-end;
 }
 
-#insta-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-}
-
-.container-header {
-    display: flex;
-    align-items: center;
-    margin-top: 50px;
-}
-
-.container-header img {
-    width: 20vw;
-    height: 20vw;
-    border-radius: 50%;
-    margin-right: 30px;
-}
-
-.container-main {
-    width: 100%;
-    display: flex;
-    justify-content: space-around;
-    background-color: gray;
-    margin-top: 30px;
-}
-
-.container-main-sub {
-    display: flex;
-    flex-direction: column;
-    justify-items: center;
-}
-
-.container-footer {
-    margin-top: 10px;
-}
-
 .insta-nav {
     width: 100%;
     bottom: 0;
@@ -82,4 +44,3 @@ body {
     z-index: 1;
     background-color: white;
 }
-
