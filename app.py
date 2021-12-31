@@ -103,7 +103,7 @@ def post_user_page():
         follower = list(db.userinfo.find({"email":payload['id']}))[0]['follower']
         follow = list(db.userinfo.find({"email": payload['id']}))[0]['follow']
         post = list(db_post.postinfo.find({"email":payload['id']}, {'_id': False}))
-        print(profile_pic_name)
+        #print(profile_pic_name)
         data = {
             'user_id' : user_id,
             'profile_pic_name' :  profile_pic_name,
@@ -120,13 +120,16 @@ def post_user_page():
 
 @app.route('/give_main_page', methods=['POST'])
 def post_main_page():
-    print('hi')
     token_receive = request.cookies.get('mytoken')
     try:
         pages = int(request.form['pages'])
         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
-        post_lists = list(db_post.postinfo.find({'post_number':{'$gte':pages,'$lt':pages+5}}, {'_id':False}))
-        return jsonify({'result': post_lists})
+        last_post_num = db_post.postinfo.count_documents({})
+        gt_toss = last_post_num-pages+1-5
+        if(last_post_num-pages+1-5 <= 0):
+            gt_toss = 1
+        post_lists = list(db_post.postinfo.find({'post_number':{'$gt':gt_toss,'$lte':last_post_num-pages+1}}, {'_id':False}))
+        return jsonify({'result': post_lists[::-1]})
     except jwt.ExpiredSignatureError:
         return redirect(url_for("login", msg="로그인 시간이 만료되었습니다."))
     except jwt.exceptions.DecodeError:

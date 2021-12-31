@@ -11,11 +11,12 @@
 
     <script>
         var a =0;
+        var pages = 1;
         function show_post(){
             $.ajax({
                 type: "POST",
                 url: "/give_main_page",
-                data: {'pages':1},
+                data: {'pages':pages},
                 success: function(data){     //전체 게시글 정보
                     a = data;
                 let temp_html =``
