@@ -22,50 +22,58 @@
 
                 let temp_html =``
                 for (let i=0; i < data.length; i++){
-                    let nickname = ???
-                    let profile_img = ???;
-                    let post_img = ???;
-                    let like_cnt = ???;
-                    let post_comment = ???;
+                    let nickname = data[i]['nickname'];
+                    let user_profile_img = data[i]['profile_img'];
+                    let post_img = data[i]['img'];
+                    let post_contents = data[i]['contents'];
+                    let like_cnt = data[i]['like'];
+                    let post_comment = data[i]['comment'];
+                    let posting_time = data[i]['post_time'];
                     temp_html=`
                 <div id="post-container">
-                <div class="post-wrapper">
-                    <div class="post-header">
-                        <div class="left-wrapper">
-                            <img src="${profile_img}"/>
-                            <p>${nickname}</p>
-                        </div>
-                        <div class="right-wrapper">
-                            <img src="../static/image/more@3x.png">
-                        </div>
-                    </div>
-                    <div class="post-body">
-                        <img src="${post_img}">
-                        <div class="post-icons-wrapper">
+                    <div class="post-wrapper">
+                        <div class="post-header">
                             <div class="left-wrapper">
-                                <img class="post-icon" id="like_img" src="../static/image/like@3x.png">
-                                <img class="post-icon-2" src="../static/image/comment@3x.png">
-                                <img class="post-icon" src="../static/image/dm@3x.png">
+                                <img src="${user_profile_img}"/>
+                                <p>${nickname}</p>
                             </div>
                             <div class="right-wrapper">
-                                <img src="../static/image/favorite@3x.png">
+                                <img src="../static/image/more@3x.png">
+                            </div>
+                        </div>
+                        <div class="post-body">
+                            <img src="../static/user_img/${post_img}">
+                            <div class="post-icons-wrapper">
+                                <div class="left-wrapper">
+                                    <img class="post-icon" id="like_img" src="../static/image/like@3x.png">
+                                    <img class="post-icon-2" src="../static/image/comment@3x.png">
+                                    <img class="post-icon" src="../static/image/dm@3x.png">
+                                </div>
+                                <div class="right-wrapper">
+                                    <img src="../static/image/favorite@3x.png">
+                                </div>
+                                <div>
+                                    <h3>${post_contents}</h3>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="post-footer">
+                            <div class="post-like-wrapper">
+                                <img src="https://cdn.topstarnews.net/news/photo/201811/526783_192798_1141.jpg">
+                                <p><strong>${nickname}</strong>님 <strong>외 <span id="like_cnt">${like_cnt}명</span></strong>이 좋아합니다</p>
+                            </div>
+                            <div class="post-content-wrapper">
+                                <p class="post-author">${nickname}</p>
+                                <p class="post-content">${post_comment}</p>
+                            </div>
+                            <div>
+                             <p class="posting_time">${posting_time}</p>
+
                             </div>
                         </div>
                     </div>
-                    <div class="post-footer">
-                        <div class="post-like-wrapper">
-                            <img src="https://cdn.topstarnews.net/news/photo/201811/526783_192798_1141.jpg">
-                            <p><strong>이용자</strong>님 <strong>외 <span id="like_cnt">${like_cnt}명</span></strong>이 좋아합니다</p>
-                        </div>
-                        <div class="post-content-wrapper">
-                            <p class="post-author">${nickname}</p>
-                            <p class="post-content">${post_comment}</p>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-                `
+                 </div>
+                    `
                     $("#container").append(temp_html)
                 }
             }
@@ -94,7 +102,7 @@
 <body>
     <div id="main">
         <div id="header">
-            <img class="header-icon" src="../static/image/comment@3x.png" />
+            <img class="header-icon" src="../static/image/camera@3x.png" />
             <img id="logo" src="../static/image/insta-logo.png" />
             <img class="header-icon" src="../static/image/dm@3x.png" />
         </div>
