@@ -52,8 +52,8 @@ body {
   width: 100%;
 }
 .post-header .left-wrapper img {
-  width: 15%;
-  height: 15%;
+  width: 5rem;
+  height: 5rem;
   border-radius: 50%;
   border: 1px solid lightgray;
   margin: 0 2%;
