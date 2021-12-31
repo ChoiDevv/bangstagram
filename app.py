@@ -36,6 +36,25 @@ def home():
     except jwt.exceptions.DecodeError:
         return redirect(url_for("login", msg="로그인 정보가 존재하지 않습니다."))
 
+@app.route('/push_like', methods=['POST'])
+def push_like():#유저한테서 이미지 이름을 받아와서 이미지 이름 바탕으로 포스트를 검색할 계획
+    token_receive = request.cookies.get('mytoken')
+    try:
+        payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+        img_name = request.form['img_name']
+        target_post_like = list(db_post.postinfo.find({'img':img_name},{'_id':False}))[0]['like']
+        if(payload['id'] in target_post_like):
+            target_post_like.remove(payload['id'])
+            db_post.postinfo.update_one({'img':img_name}, {"$set": {'like': target_post_like}})
+        else:
+            target_post_like.append(payload['id'])
+            db_post.postinfo.update_one({'img': img_name}, {"$set": {'like': target_post_like}})
+        return jsonify({'result': 'success'})
+    except jwt.ExpiredSignatureError:
+        return redirect(url_for("login", msg="로그인 시간이 만료되었습니다."))
+    except jwt.exceptions.DecodeError:
+        return redirect(url_for("login", msg="로그인 정보가 존재하지 않습니다."))
+
 @app.route('/login')
 def login():
     msg = request.args.get("msg")
@@ -134,36 +153,45 @@ def check_dup():
         return jsonify({'result': 'fail'})
 
 @app.route('/fileupload', methods=['POST'])
-def file_upload():
+def file_upload():#새 글 작성 버젼임
+    # db_post.postinfo.insert_one({'writer':'test@gmail.com', 'like':0, 'img':'', 'comment':''})
     token_receive = request.cookies.get('mytoken')
     try:
         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
         # title_receive = request.form['title_give']#이미지 저장시 이미지 제목 받음(이미지 파일이름아님)
+        contents = request.form['contents']
+        post_time = request.form['post_time']
         file = request.files['file_give']  # 이미지 파일 받음
         title_receive = file.filename.split('.')[0]  # 이미지 파일 제목
         extension = file.filename.split('.')[-1]  # 이미지 확장자
         today = datetime.now()
         mytime = today.strftime('%Y-%m-%d-%H-%M-%S')
 
-        comment = request['comment']
-
         filename = f'{title_receive}-{mytime}'  # 이미지파일이름-시간
+        save_file_name =f'{filename}.{extension}'
         # static/user_img/ 에 요청 이미지파일이름-시간.확장자 형태로 저장된다.
         save_to = f'static/user_img/{filename}.{extension}'
-        file.save(save_to)
+        save_to = f'\\static\\user_img\\{filename}.{extension}'
+        print(save_to)
+        print(file)
+        #file.save(save_to)
+        cur_path = os.getcwd()+save_to
+        print(cur_path)
+        #app.config['UPLOAD_FOLDER'] = os.getcwd()+'\'
+        #f.save(os.path.join(app.config['UPLOAD_FOLDER'], 'tmp.png'))
+        file.save(cur_path)
 
         doc = {'title': title_receive, 'img': f'{filename}.{extension}'}
         db_imgs.img.insert_one(doc)
         doc_for_post = {
             'img': f'{filename}.{extension}',
-            'id': payload['id'],
-            'like':0,
-            'comment':comment
+            'email': payload['id'],
+            'like':[],
+            'contents': contents,
+            'comment': {},
+            'post_time' : post_time
         }
         db_post.postinfo.insert_one()
-        # db_post.postinfo.insert_one({'writer':'test@gmail.com', 'like':0, 'img':'', 'comment':''})
-        # doc = {'title': title_receive, 'img': f'{filename}.{extension}'}
-        # db.camp.insert_one(doc)
         return jsonify({'result': 'success'})
     except jwt.ExpiredSignatureError:
         return redirect(url_for("login", msg="로그인 시간이 만료되었습니다."))
@@ -207,4 +235,5 @@ def user_file_upload():
         return redirect(url_for("login", msg="로그인 정보가 존재하지 않습니다."))
 
 if __name__ == '__main__':
+    #db_post.postinfo.insert_one({'img': '3ebpw-2021-12-31-09-06-08.png', 'email': 'test@gmail.com', 'like': [], 'contents': '', 'comment': {}, 'post_time':'test_time'})
     app.run('0.0.0.0', port=5000, debug=True)
