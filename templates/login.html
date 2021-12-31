@@ -16,6 +16,7 @@
                 alert("{{ msg }}")
             {% endif %}
             function login() {
+                console.log('temp')
                 let hashed_pw = SHA256($('#password').val());
                 $.ajax({
                     type: "POST",

@@ -78,12 +78,15 @@ def post_user_page():
     token_receive = request.cookies.get('mytoken')
     try:
         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
-        profile_pic_name = list(db.userinfo.find({"email":payload['id']}))[0]['profile_img']
+        userinfo_find = list(db.userinfo.find({"email":payload['id']}))
+        profile_pic_name = userinfo_find[0]['profile_img']
+        user_id = userinfo_find[0]['id']
         follower = list(db.userinfo.find({"email":payload['id']}))[0]['follower']
         follow = list(db.userinfo.find({"email": payload['id']}))[0]['follow']
         post = list(db_post.postinfo.find({"email":payload['id']}, {'_id': False}))
         print(profile_pic_name)
         data = {
+            'user_id' : user_id,
             'profile_pic_name' :  profile_pic_name,
             'post_num' : len(post),
             'follower' : follower,
@@ -124,12 +127,11 @@ def sign_up():
 def check_dup():
     get_id = request.form['username_give']
     # ID 중복확인
-    search_result = list(db.userinfo.find({'id': get_id}, {'_id':False}))
+    search_result = list(db.userinfo.find({'email': get_id}, {'_id':False}))
     if(len(search_result) != 0):#중z`복된 id가 존재한다.
         return jsonify({'result': 'success'})
     else:
         return jsonify({'result': 'fail'})
-
 
 @app.route('/fileupload', methods=['POST'])
 def file_upload():
@@ -193,7 +195,6 @@ def user_file_upload():
         #app.config['UPLOAD_FOLDER'] = os.getcwd()+'\'
         #f.save(os.path.join(app.config['UPLOAD_FOLDER'], 'tmp.png'))
         file.save(cur_path)
-
         doc = {'title': title_receive, 'img': f'{filename}.{extension}'}
         db_imgs.img.insert_one(doc)
         #######여기 위까지가 이미지 저장

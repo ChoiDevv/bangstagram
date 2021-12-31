@@ -106,7 +106,17 @@ body {
     width: 100%;
     margin-bottom: 3%;
 }
+#password_check{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
 
+}
+.check_btn:hover{
+    background-color: gray;
+}
 .check_btn{
     border: lightgray;
     border-radius: 3px;
@@ -117,7 +127,7 @@ body {
     font-size: 12px;
 
 }
-.passward_btn:hover{
+.password_btn:hover{
     background-color: darkgrey;
     font-weight: bold;
 }
