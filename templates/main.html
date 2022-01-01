@@ -22,11 +22,13 @@
             });
         });
 
+        var pages = 1
         function show_post(){
+            let cur_time = String(new Date()).split(' ')[4].split(':')
             $.ajax({
                 type: "POST",
                 url: "/give_main_page",
-                data: {'pages':1},
+                data: {'pages':pages},
                 success: function(data){     //전체 게시글 정보
                     let feed_list = data['result'];
                     console.log(feed_list)
@@ -41,62 +43,64 @@
                         let comment_content = feed_list[i]['comment'];
                         let posting_time = feed_list[i]['post_time'];
 
-                        let cur_time = String(new Date()).split(' ')[4].split(':')
-                        let old_time = String(feed_list[i]['post_time']).split(' ')[4].split(':')
+                        let old_time = String(posting_time).split(' ')[4].split(':')
 
-                        let old_time_hour = old_time[0]
-                        let cur_time_hour = cur_time[0]
-
-                        let old_time_min = old_time[1]
-                        let cur_time_min = cur_time[1]
+                        let old_time_hour = Number(old_time[0])
+                        let cur_time_hour = Number(cur_time[0])
+                        let old_time_min = Number(old_time[1])
+                        let cur_time_min = Number(cur_time[1])
+                        if(cur_time_hour == old_time_hour){
+                            posting_time = String((old_time_min - cur_time_min)) + "분 전"
+                        }else{
+                            posting_time = String((old_time_hour - cur_time_hour)) + "시간 전"
+                        }
 
                         $('#comment_content').append("content_give", comment)
-
                         temp_html=`
-                    <div id="post-container">
-                        <div class="post-wrapper">
-                            <div class="post-header">
-                                <div class="left-wrapper">
-                                    <img src="${user_profile_img}"/>
-                                    <p>${nickname}</p>
-                                </div>
-                                <div class="right-wrapper">
-                                    <img src="../static/image/more@3x.png">
-                                </div>
-                            </div>
-                            <div class="post-body">
-                                <img src="../static/user_img/${post_img}">
-                                <div class="post-icons-wrapper">
-                                    <div class="left-wrapper">
-                                        <img class="post-icon" id="like_img" src="../static/image/like@3x.png">
-                                        <img class="post-icon-2" src="../static/image/comment@3x.png">
-                                        <img class="post-icon" src="../static/image/dm@3x.png">
-                                    </div>
-                                    <div class="right-wrapper">
-                                        <img src="../static/image/favorite@3x.png">
-                                    </div>
+                                    <div id="post-container">
+                                        <div class="post-wrapper">
+                                            <div class="post-header">
+                                                <div class="left-wrapper">
+                                                    <img src="${user_profile_img}"/>
+                                                    <p>${nickname}</p>
+                                                </div>
+                                                <div class="right-wrapper">
+                                                    <img src="../static/image/more@3x.png">
+                                                </div>
+                                            </div>
+                                            <div class="post-body">
+                                                <img src="../static/user_img/${post_img}">
+                                                <div class="post-icons-wrapper">
+                                                    <div class="left-wrapper">
+                                                        <img class="post-icon" id="like_img" src="../static/image/like@3x.png">
+                                                        <img class="post-icon-2" src="../static/image/comment@3x.png">
+                                                        <img class="post-icon" src="../static/image/dm@3x.png">
+                                                    </div>
+                                                    <div class="right-wrapper">
+                                                        <img src="../static/image/favorite@3x.png">
+                                                    </div>
 
-                                </div>
-                            </div>
-                            <div class="post-footer">
-                                <div class="post-like-wrapper">
-                                    <img src="https://cdn.topstarnews.net/news/photo/201811/526783_192798_1141.jpg">
-                                    <p><strong>${like_name}</strong>님 <strong>외 <span id="like_cnt">${like_cnt}명</span></strong>이 좋아합니다</p>
-                                </div>
-                                <div class="post-content-wrapper">
-                                    <p class="post-author">${nickname}</p>
-                                    <p class="post-content">${post_contents}</p>
-                                </div>
-                                <div class="comment-container">
-                                    <p class="comment-person">${comment_person}</p>
-                                    <p class="comment-content">${comment_content}</p>
-                                </div>
-                                <div>
-                                 <p class="posting_time">${posting_time}</p>
-                                </div>
-                            </div>
-                        </div>
-                     </div>
+                                                </div>
+                                            </div>
+                                            <div class="post-footer">
+                                                <div class="post-like-wrapper">
+                                                    <img src="https://cdn.topstarnews.net/news/photo/201811/526783_192798_1141.jpg">
+                                                    <p><strong>${like_name}</strong>님 <strong>외 <span id="like_cnt">${like_cnt}명</span></strong>이 좋아합니다</p>
+                                                </div>
+                                                <div class="post-content-wrapper">
+                                                    <p class="post-author">${nickname}</p>
+                                                    <p class="post-content">${post_contents}</p>
+                                                </div>
+                                                <div class="comment-container">
+                                                    <p class="comment-person">${comment_person}</p>
+                                                    <p class="comment-content">${comment_content}</p>
+                                                </div>
+                                                <div>
+                                                 <p class="posting_time">${posting_time}</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                     </div>
                         `
                         $("#container").append(temp_html)
                     }
@@ -204,23 +208,3 @@
 </html>
 
 
-<!--시간계산-->
-<!--전체시간-->
-let cur_time = new Date();
-let old_time = data['post_time']
-
-<!--시간-->
-let old_time_hour = old_time[16:18]
-let cur_time_hour = cur_time[16:18]
-
-<!--분-->
-let old_time_min = old_time[19:21]
-let cur_time_min = cur_time[19:21]
-
-if(old_time_hour != cur_time_hour){
-    posting_time = str(int(cur_time_hour)-int(old_time_hour)) + "시간 전"
-}else if(old_time_hour == cur_time_hour){
-    posting_time = str(int(cur_time_min) - int(old_time_min)) + "분 전"
-}else{
-    posting_time = ''
-}

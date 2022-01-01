@@ -6,6 +6,7 @@ from flask import Flask, render_template, jsonify, request, redirect, url_for
 from werkzeug.utils import secure_filename
 from datetime import datetime, timedelta
 
+
 app = Flask(__name__)
 app.config["TEMPLATES_AUTO_RELOAD"] = True
 app.config['UPLOAD_FOLDER'] = "./static/profile_pics"
@@ -260,4 +261,4 @@ if __name__ == '__main__':
     #print(dir(db_post.postinfo))
     #print(db_post.postinfo.count_documents({}))
     #print(db.userinfo.count_documents({}))
-    app.run('0.0.0.0', port=5000, debug=True)
+    app.run('0.0.0.0', port=8000, debug=True)
