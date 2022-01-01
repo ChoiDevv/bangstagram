@@ -38,7 +38,25 @@
                         let user_name = feed_list[i]['nickname'];
                         $('#container-username').append(`<p>${user_name}</p>`);
                         let feed_image = feed_list[i]['img'];
-                        $('#container-postimg').append(`<img src="../static/user_img/${feed_image}">`);
+                        $('#container-posting').append(`<img src="../static/user_img/${feed_image}">`);
+                        let like_count = feed_list[i]['like'];
+                        $('#like_count').append(`<img src="https://cdn.topstarnews.net/news/photo/201811/526783_192798_1141.jpg">
+                                                 <p><strong>${user_name}</strong>님 <span style="font-weight: bold;">${like_count}</span>명이 좋아합니다</p>`)
+                        let post_content = feed_list[i]['contents'];
+                        $('#user_content').append(`<p class="post-author">${user_name}</p>
+                                                   <p class="post-content">${post_content}</p>`);
+
+                        let comment_list = feed_list[i]['comment'];
+                        let comment_author = comment_list[i][0];
+                        let comment_content = comment_list[i][1];
+                        $('#comment-container').append(`<p class="comment-person">${comment_author}</p>
+                                                        <p class="comment-content">${comment_content}</p>`);
+
+
+                        // 성연님, 시간 넣어주세요...
+                        // let posting_time = feed_list[i]['post_time'];
+                        // $('#posting-time').append(`<p class="post-time">8시간전</p>`)
+
 
 
 
@@ -94,6 +112,8 @@
             document.getElementById('link').href = '/fileshow/' + title
         }
 
+
+
     // function like_up(){
     //     let cur_like_cnt = $('#like_cnt')
     //     let temp_html = ``
@@ -111,7 +131,7 @@
     //             }
     //         });
     // }
-        show_post();
+    //     show_post();
     </script>
 </head>
 <body>
@@ -136,11 +156,11 @@
                         </div>
                     </div>
                     <div class="post-body">
-                        <div id="container-postimg">
+                        <div id="container-posting">
                             <img src="https://cdn.topstarnews.net/news/photo/201811/526783_192798_1141.jpg">
                         </div>
                         <div class="post-icons-wrapper">
-                            <div class="left-wrapper">
+                            <div class="left-wrapper" >
                                 <img onclick="like_up()" class="post-icon" src="../static/image/like@3x.png">
                                 <img class="post-icon-2" src="../static/image/comment@3x.png">
                                 <img class="post-icon" src="../static/image/dm@3x.png">
@@ -151,11 +171,11 @@
                         </div>
                     </div>
                     <div class="post-footer">
-                        <div class="post-like-wrapper">
+                        <div class="post-like-wrapper" id="like_count">
                             <img src="https://cdn.topstarnews.net/news/photo/201811/526783_192798_1141.jpg">
-                            <p><strong>이용자</strong>님 <span id="like_cnt">7,585명</span>이 좋아합니다</p>
+                            <p><strong>이용자</strong>님 <span style="font-weight: bold;">7,585명</span>이 좋아합니다</p>
                         </div>
-                        <div class="post-content-wrapper">
+                        <div class="post-content-wrapper" id="user_content">
                             <p class="post-author">0~0</p>
                             <p class="post-content">test입니다</p>
                         </div>
@@ -163,8 +183,8 @@
                             <p class="comment-person">stranger</p>
                             <p class="comment-content">댓글입니다.</p>
                         </div>
-                        <div>
-                            <p class="posting_time">8시간전</p>
+                        <div id="posting-time">
+                            <p class="post-time">8시간전</p>
                         </div>
                     </div>
                 </div>
