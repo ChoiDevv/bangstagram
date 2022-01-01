@@ -15,31 +15,31 @@
 
 ### Wireframe
 - Start Page
-<div>
+<div style="display: flex; justify-content: center">
     <img src="wireframe/first.PNG"/>
 </div>
 
 - Login Page
-<div>
+<div style="display: flex; justify-content: center">
     <img src="wireframe/login.PNG"/>
 </div>
 
 - Sign Up Page
-<div>
+<div style="display: flex; justify-content: center">
     <img src="wireframe/sign_up.PNG"/>
 </div>
 
 - Main Page
-<div>
+<div style="display: flex; justify-content: center">
     <img src="wireframe/main.PNG"/>
 </div>
 
 - Personal Page
-<div>
+<div style="display: flex; justify-content: center">
     <img src="wireframe/personal.PNG"/>
 </div>
 
 ### Function Table
-<div>
+<div style="display: flex; justify-content: center">
     <img src="wireframe/function_table.PNG"/>
 </div>
