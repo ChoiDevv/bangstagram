@@ -164,7 +164,7 @@
     <div id="main">
         <div id="header">
             <img class="header-icon" src="../static/image/camera@3x.png" />
-            <img id="logo" src="../static/image/insta-logo.png" />
+            <img onclick="javascript:window.scrollTo(0,0)" id="logo" src="../static/image/bangstagram.png"/>
             <img class="header-icon" src="../static/image/dm@3x.png" />
         </div>
         <div id="container">
@@ -214,7 +214,7 @@
         </div>
         <div id="footer">
             <div id="icon-wrapper">
-                <img src="../static/image/home.png" onclick="window.location.reload()"
+                <img src="../static/image/home.png" onclick="window.location=window.location.pathname;"
                      onmouseover="this.src='../static/image/home2.png'"
                      onmouseout="this.src='../static/image/home.png'">
 
@@ -261,7 +261,7 @@
                      onmouseover="this.src='../static/image/like2.png'"
                      onmouseout="this.src='../static/image/like.png'">
 
-                <img src="../static/image/user.png"
+                <img src="../static/image/user.png" onclick="location.href='/user'"
                      onmouseover="this.src='../static/image/user2.png'"
                      onmouseout="this.src='../static/image/user.png'">
             </div>
