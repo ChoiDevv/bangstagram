@@ -11,21 +11,21 @@ body {
 
 /* 헤더 */
 #header {
-  display: flex;
-  justify-content: space-between;
-  background-color: white;
-  align-items: center;
-  width: 100%;
-  position: fixed;
-  max-width: 720px;
-  border-bottom: 1px solid lightgray;
+    display: flex;
+    justify-content: space-between;
+    background-color: white;
+    align-items: center;
+    width: 100%;
+    position: fixed;
+    max-width: 720px;
+    border-bottom: 1px solid lightgray;
 }
 #header .header-icon {
-  margin: 3% 5%;
-  width: 6%;
+    margin: 3% 5%;
+    width: 6%;
 }
 #header #logo {
-  width: 27%;
+    width: 27%;
 }
 
 #insta-container {
@@ -39,6 +39,7 @@ body {
     display: flex;
     align-items: center;
     margin-top: 50px;
+    padding-top: 40px;
 }
 
 .container-header img {

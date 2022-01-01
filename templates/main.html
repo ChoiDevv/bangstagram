@@ -9,7 +9,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&display=swap" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <title>Instagram</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport"    content="width=device-width, initial-scale=1.0">
 
     <script>
         $(document).ready(function () {
@@ -32,27 +32,62 @@
                 url: "/give_main_page",
                 data: {'pages':pages},
                 success: function(data){     //전체 게시글 정보
-                    console.log(data['result']);
                     let feed_list = data['result'];
                     console.log(feed_list)
 
                     for (let i=0; i < feed_list.length; i++) {
                         let user_name = feed_list[i]['nickname'];
-                        $('#container-username').append(`<p>${user_name}</p>`);
                         let feed_image = feed_list[i]['img'];
-                        $('#container-posting').append(`<img src="../static/user_img/${feed_image}">`);
                         let like_count = feed_list[i]['like'];
-                        $('#like_count').append(`<img src="https://cdn.topstarnews.net/news/photo/201811/526783_192798_1141.jpg">
-                                                 <p><strong>${user_name}</strong>님 <span style="font-weight: bold;">${like_count}</span>명이 좋아합니다</p>`)
                         let post_content = feed_list[i]['contents'];
-                        $('#user_content').append(`<p class="post-author">${user_name}</p>
-                                                   <p class="post-content">${post_content}</p>`);
-
                         let comment_list = feed_list[i]['comment'];
                         let comment_author = comment_list[i][0];
                         let comment_content = comment_list[i][1];
-                        $('#comment-container').append(`<p class="comment-person">${comment_author}</p>
-                                                        <p class="comment-content">${comment_content}</p>`);
+                        let temp_html = `<div class="post-container">
+                                                    <div class="post-wrapper">
+                                                        <div class="post-header">
+                                                            <div class="left-wrapper">
+                                                                <img src="https://cdn.topstarnews.net/news/photo/201811/526783_192798_1141.jpg"/>
+                                                                <p>${user_name}</p>
+                                                            </div>
+                                                            <div class="right-wrapper">
+                                                                <img src="../static/image/more@3x.png">
+                                                            </div>
+                                                        </div>
+                                                        <div class="post-body">
+                                                            <img src="../static/user_img/${feed_image}">
+                                                            <div class="post-icons-wrapper">
+                                                                <div class="left-wrapper" >
+                                                                    <img onclick="like_up()" class="post-icon" src="../static/image/like@3x.png">
+                                                                    <img class="post-icon-2" src="../static/image/comment@3x.png">
+                                                                    <img class="post-icon" src="../static/image/dm@3x.png">
+                                                                </div>
+                                                                <div class="right-wrapper">
+                                                                    <img src="../static/image/favorite@3x.png">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="post-footer">
+                                                            <div class="post-like-wrapper">
+                                                                <img src="https://cdn.topstarnews.net/news/photo/201811/526783_192798_1141.jpg">
+                                                                <p><strong>${user_name}</strong>님 <span style="font-weight: bold;">${like_count}</span>명이 좋아합니다</p>
+                                                            </div>
+                                                            <div class="post-content-wrapper">
+                                                                <p class="post-author">${user_name}</p>
+                                                                <p class="post-content">${post_content}</p>
+                                                            </div>
+                                                            <div>
+                                                                <p class="comment-person">${comment_author}</p>
+                                                                <p class="comment-content">${comment_content}</p>
+                                                            </div>
+                                                            <div id="posting-time">
+                                                                <p class="post-time">8시간전</p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>`
+                        $('#container2').append(temp_html);
+
 
 
                         // 성연님, 시간 넣어주세요...
@@ -79,10 +114,10 @@
                         //     posting_time = String((old_time_hour - cur_time_hour)) + "시간 전"
                         // }
                     }
-            }
-
-        })
+                }
+            })
         }
+        show_post();
 
         function posting() {
             let file = $('#file')[0].files[0]
@@ -144,12 +179,12 @@
             <img class="header-icon" src="../static/image/dm@3x.png" />
         </div>
         <div id="container">
-            <div id="post-container">
+            <div class="post-container">
                 <div class="post-wrapper">
                     <div class="post-header">
                         <div class="left-wrapper">
                             <img src="https://cdn.topstarnews.net/news/photo/201811/526783_192798_1141.jpg"/>
-                            <div id="container-username">
+                            <div>
                                 <p>0~0</p>
                             </div>
                         </div>
@@ -158,7 +193,7 @@
                         </div>
                     </div>
                     <div class="post-body">
-                        <div id="container-posting">
+                        <div>
                             <img src="https://cdn.topstarnews.net/news/photo/201811/526783_192798_1141.jpg">
                         </div>
                         <div class="post-icons-wrapper">
@@ -173,24 +208,28 @@
                         </div>
                     </div>
                     <div class="post-footer">
-                        <div class="post-like-wrapper" id="like_count">
+                        <div class="post-like-wrapper">
                             <img src="https://cdn.topstarnews.net/news/photo/201811/526783_192798_1141.jpg">
                             <p><strong>이용자</strong>님 <span style="font-weight: bold;">7,585명</span>이 좋아합니다</p>
                         </div>
-                        <div class="post-content-wrapper" id="user_content">
+                        <div class="post-content-wrapper">
                             <p class="post-author">0~0</p>
                             <p class="post-content">test입니다</p>
                         </div>
-                        <div id="comment-container">
+                        <div>
                             <p class="comment-person">stranger</p>
                             <p class="comment-content">댓글입니다.</p>
                         </div>
-                        <div id="posting-time">
+                        <div>
                             <p class="post-time">8시간전</p>
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
+<!--    ############ 임시로 위에 예시문과 콜 받는 부분을 나눠놨습니다 ############    -->
+        <div id="container2">
+
         </div>
         <div id="footer">
             <div id="icon-wrapper">
@@ -204,7 +243,7 @@
 
                 <image type="button" src="../static/image/add_feed.png"
                    onmouseover="this.src='../static/image/add_feed2.png'"
-                   onmouseout="this.src='../static/image/add_feed.png'" class="openBtn">
+                   onmouseout="this.src='../static/image/add_feed.png'" class="openBtn"/>
 
                     <div class="modal hidden">
                         <div class="bg"></div>
@@ -237,16 +276,16 @@
                     document.querySelector(".closeBtn").addEventListener("click", close);
                     document.querySelector(".bg").addEventListener("click", close);
 
-                </script>
+                    </script>
 
 
-                <img src="../static/image/like.png"
-                     onmouseover="this.src='../static/image/like2.png'"
-                     onmouseout="this.src='../static/image/like.png'">
+                    <img src="../static/image/like.png"
+                         onmouseover="this.src='../static/image/like2.png'"
+                         onmouseout="this.src='../static/image/like.png'">
 
-                <img src="../static/image/user.png" onclick="location.href='/user'"
-                     onmouseover="this.src='../static/image/user2.png'"
-                     onmouseout="this.src='../static/image/user.png'">
+                    <img src="../static/image/user.png" onclick="location.href='/user'"
+                         onmouseover="this.src='../static/image/user2.png'"
+                         onmouseout="this.src='../static/image/user.png'">
             </div>
         </div>
     </div>

@@ -74,19 +74,24 @@
                         let temp_follow_list = `<p>${name}</p>`;
                         $('#modal-follower-text').append(temp_follow_list); // 팔로워 수만큼 인덱스를 나눠 0번째부터 name으로 초기화 / 모달 부분에 들어감
                     }
-                    let comment_list = user_list['posts_list'] // user_list의 posts_list를 가져와 comment_list로 선언
-                    for (let i = 0; i < comment_list.length; i++) {
-                        let comment = comment_list[i]['comment'] // comment_list 안 0번째에서 'comment'라는 키 값을 가져와서 comment로 선언
-                        let writer = user_list['user_id'] // user_id
+                    let contents_list = user_list['posts_list'] // user_list의 posts_list를 가져와 comment_list로 선언
+                    console.log(contents_list)
+                    for (let i = 0; i < contents_list.length; i++) {
+                        let content = contents_list[i]['contents']; // comment_list 안 0번째에서 'comment'라는 키 값을 가져와서 comment로 선언
+                        console.log(content);
+                        let writer = contents_list[i]['nickname']; // user_id
+                        console.log(writer);
+                        let contents_image = contents_list[i]['img'];
                         let temp_comment = `<div class="card" style="width: 18rem; margin-top: 10px;">
                                                 <div class="card-body text-center">
                                                     <h5 class="card-title">Comment</h5>
-                                                    <p class="card-text">${comment}</p>
+                                                    <p class="card-text">${content}</p>
+                                                    <img style="width: 100%;" src="../static/user_img/${contents_image}"/>
                                                 </div>
                                                 <ul class="list-group list-group-flush text-center">
                                                     <li class="list-group-item">${writer}</li>
                                                 </ul>
-                                            </div>`
+                                            </div>`;
                         $('#container-footer').append(temp_comment);
 
                     }
