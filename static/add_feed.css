@@ -75,10 +75,14 @@ button {
     border: 3px;
 }
 
+#modal_title {
+    display: flex;
+    justify-content: center;
+}
+
 .modalBox button {
     display: block;
     width: 80px;
-    margin: 0 auto;
 }
 
 .hidden {
@@ -88,4 +92,24 @@ button {
 #text_box{
     width: 400px;
     height: 250px;
+}
+
+.text_box_wrap {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+#file {
+    border: 1px solid lightgray;
+}
+
+.file_select_button {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.upload_button {
+    margin-right: 50px;
 }

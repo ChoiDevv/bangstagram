@@ -206,22 +206,25 @@
                    onmouseover="this.src='../static/image/add_feed2.png'"
                    onmouseout="this.src='../static/image/add_feed.png'" class="openBtn">
 
-                <div class="modal hidden">
-                    <div class="bg"></div>
-                    <div class="modalBox">
-                        <div class="container">
-                            <div>
-                            <input type="text" name="title" id="text_box">
-                            </div>
-                            <div class="file_select">
-                                <input type="file" id="file">
-                                <button class="upload_button" onclick="posting()">업로드</button>
+                    <div class="modal hidden">
+                        <div class="bg"></div>
+                        <div class="modalBox">
+                            <h1 id="modal_title">피드 추가</h1>
+                            <div class="container">
+                                <div class="text_box_wrap">
+                                    <input type="text" name="title" id="text_box">
+                                </div>
+                                <div class="file_select">
+                                    <input type="file" id="file">
+                                </div>
+                                <div class="file_select_button">
+                                    <button class="upload_button" onclick="posting()">업로드</button>
+                                    <button class="closeBtn">✖</button>
+                                </div>
                             </div>
                         </div>
-                        <button class="closeBtn">✖</button>
                     </div>
-                </div>
-                <script>
+                    <script>
                     const open = () => {
                         document.querySelector(".modal").classList.remove("hidden");
                     }
