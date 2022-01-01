@@ -42,6 +42,9 @@
                         let like_cnt = feed_list[i]['like'].length;
                         let like_name = feed_list[i]['like'][0];
                         let comment_content = feed_list[i]['comment'];
+
+
+
                         let posting_time = feed_list[i]['post_time'];
 
                         let old_time = String(posting_time).split(' ')[4].split(':')
@@ -92,7 +95,7 @@
                                                     <p class="post-author">${nickname}</p>
                                                     <p class="post-content">${post_contents}</p>
                                                 </div>
-                                                <div class="comment-container">
+                                                <div id="comment-container">
                                                     <p class="comment-person">${comment_person}</p>
                                                     <p class="comment-content">${comment_content}</p>
                                                 </div>
@@ -201,9 +204,9 @@
                             <p class="post-author">0~0</p>
                             <p class="post-content">test입니다</p>
                         </div>
-                        <div class="comment-container">
+                        <div id="comment-container">
                             <p class="comment-person">stranger</p>
-                            <p id="comment-content">댓글입니다.</p>
+                            <p class="comment-content">댓글입니다.</p>
                         </div>
                         <div>
                             <p class="posting_time">8시간전</p>

@@ -37,6 +37,8 @@ body {
   align-items: center;
   width: 100%;
 }
+
+
 .right-wrapper {
   width: 100%;
   display: flex;
@@ -55,8 +57,8 @@ body {
 
 /*asdfas*/
 .post-header .left-wrapper img {
-  width: 5rem;
-  height: 5rem;
+  width: 60px;
+  height: 60px;
   border-radius: 50%;
   border: 1px solid lightgray;
   margin: 0 2%;
