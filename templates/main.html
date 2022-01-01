@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../static/main.css">
+    <link rel="stylesheet" href="../static/add_feed.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <title>Instagram</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -108,6 +109,37 @@
 
         })
         }
+
+        function posting() {
+            let file = $('#file')[0].files[0]
+            let text = $('#text_box').val()
+            let form_data = new FormData()
+
+            form_data.append("text_give", text)
+            form_data.append("file_give", file)
+
+            $.ajax({
+                type: "POST",
+                url: "/fileupload",
+                data: form_data,
+                cache: false,
+                contentType: false,
+                processData: false,
+                success: function (response) {
+                    alert(response["result"])
+                    window.location.reload()
+                },
+                error: function (error) {
+                  console.log(error)
+                }
+            });
+        }
+
+        function find_img() {
+            let title = $('#find_title').val()
+            document.getElementById('link').href = '/fileshow/' + title
+        }
+
     // function like_up(){
     //     let cur_like_cnt = $('#like_cnt')
     //     let temp_html = ``
@@ -190,9 +222,40 @@
                      onmouseover="this.src='../static/image/search2.png'"
                      onmouseout="this.src='../static/image/search.png'">
 
-                <img src="../static/image/add_feed.png"
-                     onmouseover="this.src='../static/image/add_feed2.png'"
-                     onmouseout="this.src='../static/image/add_feed.png'">
+                <image type="button" src="../static/image/add_feed.png"
+                   onmouseover="this.src='../static/image/add_feed2.png'"
+                   onmouseout="this.src='../static/image/add_feed.png'" class="openBtn">
+
+                <div class="modal hidden">
+                    <div class="bg"></div>
+                    <div class="modalBox">
+                        <div class="container">
+                            <div>
+                            <input type="text" name="title" id="text_box">
+                            </div>
+                            <div class="file_select">
+                                <input type="file" id="file">
+                                <button class="upload_button" onclick="posting()">업로드</button>
+                            </div>
+                        </div>
+                        <button class="closeBtn">✖</button>
+                    </div>
+                </div>
+                <script>
+                    const open = () => {
+                        document.querySelector(".modal").classList.remove("hidden");
+                    }
+
+                    const close = () => {
+                        document.querySelector(".modal").classList.add("hidden");
+                    }
+
+                    document.querySelector(".openBtn").addEventListener("click", open);
+                    document.querySelector(".closeBtn").addEventListener("click", close);
+                    document.querySelector(".bg").addEventListener("click", close);
+
+                </script>
+
 
                 <img src="../static/image/like.png"
                      onmouseover="this.src='../static/image/like2.png'"
