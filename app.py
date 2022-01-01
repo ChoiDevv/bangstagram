@@ -7,6 +7,7 @@ from flask import Flask, render_template, jsonify, request, redirect, url_for
 from werkzeug.utils import secure_filename
 from datetime import datetime, timedelta
 
+
 app = Flask(__name__)
 app.config["TEMPLATES_AUTO_RELOAD"] = True
 app.config['UPLOAD_FOLDER'] = "./static/profile_pics"
@@ -14,7 +15,11 @@ app.config['UPLOAD_FOLDER'] = "./static/profile_pics"
 SECRET_KEY = 'SPARTA'
 
 #client = MongoClient('내AWS아이피', 27017, username="아이디", password="비밀번호")
+<<<<<<< HEAD
 client = MongoClient('mongodb+srv://test:sparta@cluster0.mgxkf.mongodb.net/Cluster0?retryWrites=true&w=majority', tlsCAfile=certifi.where())
+=======
+client = MongoClient('mongodb+srv://test:sparta@cluster0.mgxkf.mongodb.net/Cluster0?retryWrites=true&w=majority', tlsCAFile=certifi.where())
+>>>>>>> 201c4f5ddcd0ac755908e4f8a8680c4903805521
 db = client.dbinstaclone
 #db.userinfo.insert_one({'id':'test', 'hash':'test'})
 #client = MongoClient('mongodb+srv://test:sparta@cluster0.mgxkf.mongodb.net/Cluster0?retryWrites=true&w=majority')
