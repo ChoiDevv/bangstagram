@@ -4,6 +4,9 @@ body {
     height: auto;
 }
 
+* {
+  font-family: 'Gowun Dodum', sans-serif;
+}
 /* 헤더 */
 #header {
   display: flex;

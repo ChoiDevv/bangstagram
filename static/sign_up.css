@@ -5,6 +5,11 @@ body {
     align-items: center;
     display: flex;
 }
+
+* {
+  font-family: 'Gowun Dodum', sans-serif;
+}
+
 #container{
     background-color: white;
     display: flex;

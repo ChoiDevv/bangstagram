@@ -6,6 +6,10 @@
     margin-top: 20px;
 }
 
+* {
+  font-family: 'Gowun Dodum', sans-serif;
+}
+
 .file_select{
     display: flex;
     flex-direction: row;

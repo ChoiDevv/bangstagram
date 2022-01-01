@@ -5,6 +5,10 @@ body {
     margin-top: 50px;
 }
 
+* {
+  font-family: 'Gowun Dodum', sans-serif;
+}
+
 /* 헤더 */
 #header {
   display: flex;

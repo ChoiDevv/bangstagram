@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../static/main.css">
     <link rel="stylesheet" href="../static/add_feed.css">
+    <link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&display=swap" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <title>Instagram</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -31,6 +32,7 @@
                 url: "/give_main_page",
                 data: {'pages':pages},
                 success: function(data){     //전체 게시글 정보
+                    console.log(data['result']);
                     let feed_list = data['result'];
                     console.log(feed_list)
 

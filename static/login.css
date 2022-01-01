@@ -6,6 +6,10 @@ body {
     height: 70vh;
 }
 
+* {
+  font-family: 'Gowun Dodum', sans-serif;
+}
+
 .container {
     min-width: 350px;
     width: 25%;
