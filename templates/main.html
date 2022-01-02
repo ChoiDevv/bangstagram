@@ -17,14 +17,14 @@
     </style>
     <script type="text/javascript" src="../static/upload.js"></script>
     <script>
+        var pages = 1;
         $(window).scroll(function(){
             if($(window).scrollTop() == $(document).height() - $(window).height()){  //스크롤이 존재할 때(ex)게시물이 한개라면창길이가 짧을 때) 발생함
-                alert("맨밑입니다.")
-                show_post()
+                //alert("맨밑입니다.")
+                pages += 5;
+                show_post();
             }
         });
-
-        var pages = 1
         function show_post(){
             let cur_time = String(new Date()).split(' ')[4].split(':')
             $.ajax({
@@ -34,7 +34,6 @@
                 success: function(data){     //전체 게시글 정보
                     let feed_list = data['result'];
                     console.log(feed_list)
-
 
                     for (let i=0; i < feed_list.length; i++) {
                         let user_name = feed_list[i]['nickname'];
@@ -46,7 +45,7 @@
                         // let comment_content = comment_list[i][1];
                         let posting_time = feed_list['post_time']
                         let old_time = feed_image.split('-')
-                        console.log(old_time)
+                        //console.log(old_time)
                             let old_time_hour = Number(old_time[4])
                             let cur_time_hour = Number(cur_time[0])
                             let old_time_min = Number(old_time[5])
@@ -114,12 +113,14 @@
         show_post();
 
         function posting() {
-            let file = $('#file')[0].files[0]
-            let text = $('#text_box').val()
-            let form_data = new FormData()
+            let file = $('#imageSelector')[0].files[0];
+            let text = $('#text_box').val();
+            let form_data = new FormData();
+            let cur_time = new Date();
 
-            form_data.append("text_give", text)
-            form_data.append("file_give", file)
+            form_data.append("text_give", text);
+            form_data.append("file_give", file);
+            form_data.append("post_time", String(cur_time));
 
             $.ajax({
                 type: "POST",

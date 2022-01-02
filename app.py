@@ -128,9 +128,11 @@ def post_main_page():
         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
         last_post_num = db_post.postinfo.count_documents({})
         gt_toss = last_post_num-pages+1-5
-        if(last_post_num-pages+1-5 <= 0):
-            gt_toss = 1
+        #print('@@', gt_toss, last_post_num-pages+1)
+        if(gt_toss <= 0):
+            gt_toss = 0
         post_lists = list(db_post.postinfo.find({'post_number':{'$gt':gt_toss,'$lte':last_post_num-pages+1}}, {'_id':False}))
+        #print(post_lists)
         return jsonify({'result': post_lists[::-1]})
     except jwt.ExpiredSignatureError:
         return redirect(url_for("login", msg="로그인 시간이 만료되었습니다."))
@@ -152,8 +154,8 @@ def sign_up():
             'hash': password_receive,
             'email':email_receive,
             'gender':gender_receive,
-            'follower':{},
-            'follow':{},
+            'follower':[],
+            'follow':[],
             'profile_img':False
         })
         return jsonify({'result': 'success'})
@@ -178,7 +180,8 @@ def file_upload():#새 글 작성 버젼임
     try:
         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
         # title_receive = request.form['title_give']#이미지 저장시 이미지 제목 받음(이미지 파일이름아님)
-        contents = request.form['contents']
+        #contents = request.form['contents']
+        contents = request.form['text_give']
         post_time = request.form['post_time']
         file = request.files['file_give']  # 이미지 파일 받음
         title_receive = file.filename.split('.')[0]  # 이미지 파일 제목
@@ -210,11 +213,11 @@ def file_upload():#새 글 작성 버젼임
             'email': payload['id'],
             'like':[],
             'contents': contents,
-            'comment': {},
+            'comment': [],
             'post_time' : post_time,
             'nickname':nickname
         }
-        db_post.postinfo.insert_one()
+        db_post.postinfo.insert_one(doc_for_post)
         return jsonify({'result': 'success'})
     except jwt.ExpiredSignatureError:
         return redirect(url_for("login", msg="로그인 시간이 만료되었습니다."))
