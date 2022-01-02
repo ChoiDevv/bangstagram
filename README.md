@@ -1,4 +1,4 @@
-# # Team Project
+## Team Project
 21.12.28 ~ 22.01.04
 
 ### Project Name : Bangstgram
