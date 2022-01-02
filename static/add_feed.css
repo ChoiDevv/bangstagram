@@ -90,8 +90,9 @@ button {
 }
 
 #text_box{
-    width: 400px;
-    height: 250px;
+    width: 350px;
+    height: 100px;
+    margin-bottom: 50px;
 }
 
 .text_box_wrap {
@@ -100,7 +101,7 @@ button {
     justify-content: center;
 }
 
-#file {
+#imageSelector {
     border: 1px solid lightgray;
 }
 
@@ -112,4 +113,8 @@ button {
 
 .upload_button {
     margin-right: 50px;
+}
+
+.thumb {
+    display: flex;
 }
