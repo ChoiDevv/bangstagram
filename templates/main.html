@@ -10,7 +10,12 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <title>Instagram</title>
     <meta name="viewport"    content="width=device-width, initial-scale=1.0">
-
+    <style>
+        .dellink {
+            display: none;
+        }
+    </style>
+    <script type="text/javascript" src="../static/upload.js"></script>
     <script>
         $(window).scroll(function(){
             if($(window).scrollTop() == $(document).height() - $(window).height()){  //스크롤이 존재할 때(ex)게시물이 한개라면창길이가 짧을 때) 발생함
@@ -171,6 +176,8 @@
                 // });
             }
         }
+
+
     </script>
 </head>
 <body>
@@ -248,17 +255,19 @@
                 <image type="button" src="../static/image/add_feed.png"
                    onmouseover="this.src='../static/image/add_feed2.png'"
                    onmouseout="this.src='../static/image/add_feed.png'" class="openBtn"/>
-
+<!--미리보기 추가-->
                     <div class="modal hidden">
                         <div class="bg"></div>
                         <div class="modalBox">
                             <h1 id="modal_title">피드 추가</h1>
                             <div class="container">
+                                <img src="" class="thumb" style="margin: auto;width: 340px">
+                                <div class="file_select">
+                                    <input type="file" class="hidden_input" id="imageSelector" name="imageSelector"
+                                           accept="image/jpeg, image/jpg, image/png" multiple/>
+                                </div>
                                 <div class="text_box_wrap">
                                     <input type="text" name="title" id="text_box">
-                                </div>
-                                <div class="file_select">
-                                    <input type="file" id="file">
                                 </div>
                                 <div class="file_select_button">
                                     <button class="upload_button" onclick="posting()">업로드</button>
