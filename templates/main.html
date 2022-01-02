@@ -35,6 +35,7 @@
                     let feed_list = data['result'];
                     console.log(feed_list)
 
+
                     for (let i=0; i < feed_list.length; i++) {
                         let user_name = feed_list[i]['nickname'];
                         let feed_image = feed_list[i]['img'];
@@ -44,12 +45,13 @@
                         // let comment_author = comment_list[i][0];
                         // let comment_content = comment_list[i][1];
                         let posting_time = feed_list['post_time']
-                        let old_time = String(posting_time).split(' ')[4].split(':')
-                            let old_time_hour = Number(old_time[0])
+                        let old_time = feed_image.split('-')
+                        console.log(old_time)
+                            let old_time_hour = Number(old_time[4])
                             let cur_time_hour = Number(cur_time[0])
-                            let old_time_min = Number(old_time[1])
+                            let old_time_min = Number(old_time[5])
                             let cur_time_min = Number(cur_time[1])
-                            let old_time_sec = Number(old_time[2])
+                            let old_time_sec = Number(old_time[6].split('.')[0])
                             let cur_time_sec = Number(cur_time[2])
                             if(cur_time_hour == old_time_hour){
                                 if(cur_time_min == old_time_min){
@@ -94,8 +96,8 @@
                                                                 <p class="post-content">${post_content}</p>
                                                             </div>
                                                             <div>
-                                                                <p class="comment-person">${comment_author}</p>
-                                                                <p class="comment-content">${comment_content}</p>
+                                                                // <p class="comment-person"></p>
+                                                                // <p class="comment-content"></p>
                                                             </div>
                                                             <div id="posting-time">
                                                                 <p class="post-time">${posting_time}</p>
