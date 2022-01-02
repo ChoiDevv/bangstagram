@@ -12,16 +12,11 @@
     <meta name="viewport"    content="width=device-width, initial-scale=1.0">
 
     <script>
-        $(document).ready(function () {
-            //스크롤 발생 이벤트 처리
-            $('#container').scroll(function () {
-                var scrollT = $(this).scrollTop(); //스크롤바의 상단위치
-                var scrollH = $(this).height(); //스크롤바를 갖는 div의 높이
-                var contentH = $('#post-container').height(); //문서 전체 내용을 갖는 div의 높이
-                if (scrollT + scrollH + 1 >= contentH) { // 스크롤바가 아래 쪽에 위치할 때
-                    show_post();
-                }
-            });
+        $(window).scroll(function(){
+            if($(window).scrollTop() == $(document).height() - $(window).height()){  //스크롤이 존재할 때(ex)게시물이 한개라면창길이가 짧을 때) 발생함
+                alert("맨밑입니다.")
+                show_post()
+            }
         });
 
         var pages = 1
@@ -43,6 +38,23 @@
                         let comment_list = feed_list[i]['comment'];
                         let comment_author = comment_list[i][0];
                         let comment_content = comment_list[i][1];
+                        let posting_time = feed_list['post_time']
+                        let old_time = String(posting_time).split(' ')[4].split(':')
+                            let old_time_hour = Number(old_time[0])
+                            let cur_time_hour = Number(cur_time[0])
+                            let old_time_min = Number(old_time[1])
+                            let cur_time_min = Number(cur_time[1])
+                            let old_time_sec = Number(old_time[2])
+                            let cur_time_sec = Number(cur_time[2])
+                            if(cur_time_hour == old_time_hour){
+                                if(cur_time_min == old_time_min){
+                                    posting_time = String((cur_time_sec - old_time_sec)) + "초 전"
+                                }else{
+                                    posting_time = String((cur_time_min - old_time_min)) + "분 전"
+                                }
+                            }else{
+                                posting_time = String((cur_time_hour - old_time_hour)) + "시간 전"
+                            }
                         let temp_html = `<div class="post-container">
                                                     <div class="post-wrapper">
                                                         <div class="post-header">
@@ -55,10 +67,10 @@
                                                             </div>
                                                         </div>
                                                         <div class="post-body">
-                                                            <img src="../static/user_img/${feed_image}">
+                                                            <img id="post_img" src="../static/user_img/${feed_image}">
                                                             <div class="post-icons-wrapper">
                                                                 <div class="left-wrapper" >
-                                                                    <img onclick="like_up()" class="post-icon" src="../static/image/like@3x.png">
+                                                                    <img id="like_img" onclick="temp_like_up_down()" class="post-icon" src="../static/image/like.png">
                                                                     <img class="post-icon-2" src="../static/image/comment@3x.png">
                                                                     <img class="post-icon" src="../static/image/dm@3x.png">
                                                                 </div>
@@ -70,7 +82,7 @@
                                                         <div class="post-footer">
                                                             <div class="post-like-wrapper">
                                                                 <img src="https://cdn.topstarnews.net/news/photo/201811/526783_192798_1141.jpg">
-                                                                <p><strong>${user_name}</strong>님 <span style="font-weight: bold;">${like_count}</span>명이 좋아합니다</p>
+                                                                <p><strong>${user_name}</strong>님 <span id="like_cnt" style="font-weight: bold;">${like_count}</span>명이 좋아합니다</p>
                                                             </div>
                                                             <div class="post-content-wrapper">
                                                                 <p class="post-author">${user_name}</p>
@@ -81,38 +93,13 @@
                                                                 <p class="comment-content">${comment_content}</p>
                                                             </div>
                                                             <div id="posting-time">
-                                                                <p class="post-time">8시간전</p>
+                                                                <p class="post-time">${posting_time}</p>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>`
                         $('#container2').append(temp_html);
 
-
-
-                        // 성연님, 시간 넣어주세요...
-                        // let posting_time = feed_list[i]['post_time'];
-                        // $('#posting-time').append(`<p class="post-time">8시간전</p>`)
-
-
-
-
-
-
-
-                        // let posting_time = feed_list[i]['post_time'];
-                        //
-                        // let old_time = String(posting_time).split(' ')[4].split(':')
-                        //
-                        // let old_time_hour = Number(old_time[0])
-                        // let cur_time_hour = Number(cur_time[0])
-                        // let old_time_min = Number(old_time[1])
-                        // let cur_time_min = Number(cur_time[1])
-                        // if(cur_time_hour == old_time_hour){
-                        //     posting_time = String((old_time_min - cur_time_min)) + "분 전"
-                        // }else{
-                        //     posting_time = String((old_time_hour - cur_time_hour)) + "시간 전"
-                        // }
                     }
                 }
             })
@@ -149,26 +136,41 @@
             document.getElementById('link').href = '/fileshow/' + title
         }
 
+        function numberWithCommas(x) {
+            return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        }
 
-
-    // function like_up(){
-    //     let cur_like_cnt = $('#like_cnt')
-    //     let temp_html = ``
-    //     $.ajax({
-    //             type: 'POST',
-    //             url: '/main',
-    //             data: { like_cnt:cur_like_cnt+1},
-    //             success: function (response) {
-    //                 window.location.reload()
-    //                 temp_html=`${cur_like_cnt+1}
-    //                 `
-    //                 $('#like_cnt').empty()
-    //                 $('#like_cnt').append(temp_html)
-    //                 $('#like_cnt').attr('src', ../static/image/like2.png)
-    //             }
-    //         });
-    // }
-    //     show_post();
+        function temp_like_up_down(){
+            let plus_like_cnt = numberWithCommas(Number($('#like_cnt').text().split(',').join("")) + 1)
+            let minus_like_cnt = numberWithCommas(Number($('#like_cnt').text().split(',').join("")) - 1)
+            let img_name = $('#post_img').attr('src').split('/')[3]
+            let temp_html =``
+            if ($('#like_img').attr('src').split('/')[3] == "like.png"){
+                $('#like_img').attr('src', "../static/image/like2.png")
+                temp_html =`${plus_like_cnt}`
+                $('#like_cnt').empty()
+                $('#like_cnt').append(temp_html)
+                // $.ajax({
+                //     type: 'POST',
+                //     url: '/push_like',
+                //     data: { img_name:img_name},
+                //     success: function (response) {
+                //     }
+                // });
+            }else{
+                $('#like_img').attr('src', "../static/image/like.png")
+                temp_html =`${minus_like_cnt}`
+                $('#like_cnt').empty()
+                $('#like_cnt').append(temp_html)
+                // $.ajax({
+                //     type: 'POST',
+                //     url: '/push_like',
+                //     data: { img_name:img_name},
+                //     success: function (response) {
+                //     }
+                // });
+            }
+        }
     </script>
 </head>
 <body>
@@ -194,11 +196,11 @@
                     </div>
                     <div class="post-body">
                         <div>
-                            <img src="https://cdn.topstarnews.net/news/photo/201811/526783_192798_1141.jpg">
+                            <img id="post_img" src="../static/image/temp_img.jpeg">
                         </div>
                         <div class="post-icons-wrapper">
                             <div class="left-wrapper" >
-                                <img onclick="like_up()" class="post-icon" src="../static/image/like@3x.png">
+                                <img id="like_img" onclick="temp_like_up_down()" class="post-icon" src="../static/image/like.png">
                                 <img class="post-icon-2" src="../static/image/comment@3x.png">
                                 <img class="post-icon" src="../static/image/dm@3x.png">
                             </div>
@@ -210,7 +212,7 @@
                     <div class="post-footer">
                         <div class="post-like-wrapper">
                             <img src="https://cdn.topstarnews.net/news/photo/201811/526783_192798_1141.jpg">
-                            <p><strong>이용자</strong>님 <span style="font-weight: bold;">7,585명</span>이 좋아합니다</p>
+                            <p><strong>이용자</strong>님 <span id="like_cnt" style="font-weight: bold;">7,585</span>명이 좋아합니다</p>
                         </div>
                         <div class="post-content-wrapper">
                             <p class="post-author">0~0</p>
@@ -226,7 +228,9 @@
                     </div>
                 </div>
             </div>
+
         </div>
+
 <!--    ############ 임시로 위에 예시문과 콜 받는 부분을 나눠놨습니다 ############    -->
         <div id="container2">
 

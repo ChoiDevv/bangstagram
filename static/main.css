@@ -2,6 +2,7 @@ body {
     width: 100%;
     margin: 0 auto;
     height: auto;
+    top: 0;
 }
 
 /* 헤더 */

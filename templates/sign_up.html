@@ -9,6 +9,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="../static/sha256.js"></script>
     <script>
+        var email_num_check = 0
         function submit_sign_up() {
             let pwd = $('#password').val();
             let pwd_check = $('#password2').val();
@@ -24,31 +25,19 @@
             if (email == '') {
                 alert("이메일을 작성 해주세요.")
                 return false
-            }else if(!email_check(email)){
-                alert("이메일을 확인해주세요.")
+            }else if (email_num_check == 0){
+                alert("이메일 중복확인을 하세요")
                 return false
-            }else if(email_check(email)){
-                $.ajax({
-                type: 'POST',
-                url: '/sign_up/check_dup',
-                data: {'username_give':email},
-                success: function (response){
-                    if(response['result']=='success') {
-                        alert("이메일 중복확인을 해주세요.");
-                        return false
-                    }
-                }
-                })
-            }
-            else if (name == '') {
+            }else if (name == '') {
                 alert("성명을 작성해주세요.")
                 return false
-            } else if (nickname == ''){
+            }else if (nickname == ''){
                 alert("사용자 이름을 작성해주세요.")
             return false
-            }
-
-            if(!is_password(pwd)){
+            }else if(pwd ==''){
+                alert("비밀번호를 입력하세요.")
+                return false
+            }else if(!is_password(pwd)){
                 alert("올바른 비밀번호 형식을 입력하세요")
                 temp_html=` <div class="input_wrapper">
                                 <input class="sign_up_input" type="password" id="password" placeholder="  비밀번호  영문, 숫자, 특수문자를 포함하세요(8~20자)" required>
@@ -71,10 +60,7 @@
                 $('#password_check2').empty();
                 $('#password_check2').append(temp_html);
                 return false
-            }
-
-
-            else{
+            }else{
                 $.ajax({
                 type: "POST",
                 url: "/sign_up/save",
@@ -94,7 +80,6 @@
                 }
             });
             }
-
 
         }
         function is_password(asValue) {
@@ -129,6 +114,7 @@
 
                 }
             });
+            email_num_check += 1
         }
         function goto_login(){
             window.location.href='/login';
