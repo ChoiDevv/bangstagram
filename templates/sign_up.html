@@ -8,6 +8,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&display=swap" rel="stylesheet">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://www.google.com/recaptcha/api.js"></script>
     <script src="../static/sha256.js"></script>
     <script>
         var email_num_check = 0
@@ -62,6 +63,10 @@
                 $('#password_check2').append(temp_html);
                 return false
             }else{
+                let state = true;
+                if(grecaptcha.getResponse()==""){
+                    state=false;
+                }
                 $.ajax({
                 type: "POST",
                 url: "/sign_up/save",
@@ -69,14 +74,16 @@
                         password_give:hash_pwd,
                         name_give:name,
                         username_give:nickname,
-                        gender_give:gender
+                        gender_give:gender,
+                        captcha_state:String(state)
                 },
                 success: function (response) {
                     if(response["result"] == 'fail'){
                         console.log('failed');
                     }
                     else{
-                        alert(response["result"]);
+                        window.location.href = '/'
+                        //alert(response["result"]);
                     }
                 }
             });
@@ -177,9 +184,16 @@
             </div>
         </div>
         <div class="sign_up_middle_lower">
+            <div class="g-recaptcha" id="chkCaptcha" data-sitekey="{{ sitekey }}"></div>
             <div class="sign_up_submit">
+                <!--input type="submit" value="Submit" onclick="submit_sign_up()"-->
                 <button id="sign_up_submit_btn" onclick="submit_sign_up()" >가입</button>
             </div>
+            <!--form method="post">
+                {{recaptcha}}
+                <input type="submit" value="Submit">
+            </form>
+            <p>{{ message }}</p-->
         </div>
 
 
