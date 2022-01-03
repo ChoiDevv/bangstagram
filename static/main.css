@@ -119,22 +119,25 @@ body {
   margin-top: 2%;
   font-size: 14px;
 }
-
-#comment-container {
+#comment-container .comment-content{
+  margin-left: 20px;
+  width: 390px;
+}
+#commentinfo {
   display: flex;
   flex-direction: row;
   text-align: center;
 }
 
-#comment-container .comment-person{
-  font-size: 15px;
+#commentinfo .comment-person{
+  font-size: 14px;
   margin-left: 25px;
 }
 
-#comment-container .comment-content{
+#commentinfo .comment-content{
   font-size: 13px;
-  margin-left: 10px;
-  padding-top:3px;
+  padding-top:1px;
+  margin-left: 5px;
 }
 
 .post-footer .post-content-wrapper {
@@ -145,11 +148,12 @@ body {
 .post-footer .post-content-wrapper .post-author {
   margin: 0% 2% 0% 2%;
   font-weight: bold;
-  font-size: 14px;
+  font-size: 15px;
 }
 .post-footer .post-content-wrapper .post-content {
   margin: 0%;
   font-size: 14px;
+  padding-top: 1px;
 }
 .post-footer .post-time {
   color: gray;

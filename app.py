@@ -97,7 +97,7 @@ def sign_in():
         time_token = (datetime.utcnow() + timedelta(seconds=300))
         header = {'id': id, 'exp': time_token}
         #python 버전에 따라 다르지만 현 버전에서는 decode 가 필요 없이 그냥 문자열임
-        jwt_token = jwt.encode(header, SECRET_KEY, algorithm='HS256').decode('utf-8')
+        jwt_token = jwt.encode(header, SECRET_KEY, algorithm='HS256')
         return jsonify({'result': 'success', 'time_token': jwt_token})
     else:
         return jsonify({'result': 'fail', 'msg': '아이디/비밀번호가 정확하지 않습니다.'})
@@ -292,10 +292,11 @@ def user_file_upload():
         return redirect(url_for("login", msg="로그인 시간이 만료되었습니다."))
     except jwt.exceptions.DecodeError:
         return redirect(url_for("login", msg="로그인 정보가 존재하지 않습니다."))
+        return redirect(url_for("login", msg="로그인 정보가 존재하지 않습니다."))
 
 if __name__ == '__main__':
     #db_post.postinfo.insert_one({'img': '3ebpw-2021-12-31-09-06-08.png', 'email': 'test@gmail.com', 'like': [], 'contents': '', 'comment': {}, 'post_time':'test_time'})
     #print(dir(db_post.postinfo))
     #print(db_post.postinfo.count_documents({}))
     #print(db.userinfo.count_documents({}))
-    app.run('0.0.0.0', port=5000, debug=True)
+    app.run('0.0.0.0', port=5001, debug=True)
