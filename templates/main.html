@@ -11,7 +11,24 @@
     <title>Bangstagram</title>
     <link rel="icon" href="../static/image/favicon.ico" type="image/x-icon" sizes="16x16">
     <meta name="viewport"    content="width=device-width, initial-scale=1.0">
-    <script>
+    <script src="http://madalla.kr/js/jquery-1.8.3.min.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#imageSelector").on('change', function () {
+                readURL(this);
+            });
+        });
+
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $('#View').attr('src', e.target.result);
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
         var pages = 1;
         $(window).scroll(function(){
             if($(window).scrollTop() == $(document).height() - $(window).height()){  //스크롤이 존재할 때(ex)게시물이 한개라면창길이가 짧을 때) 발생함
@@ -273,15 +290,16 @@
                     <div class="modalBox">
                         <h1 id="modal_title">피드 추가</h1>
                         <div class="container">
+                            <div class="file_select">
+                                <img id="View" alt="" style="width: 350px">
+                                <input type="file" id="imageSelector">
+                            </div>
                             <div class="text_box_wrap">
                                 <input type="text" name="title" id="text_box">
                             </div>
-                            <div class="file_select">
-                                <input type="file" id="imageSelector">
-                            </div>
                             <div class="file_select_button">
                                 <button class="upload_button" onclick="posting()">업로드</button>
-                                <button class="closeBtn">✖</button>
+                                <button class="closeBtn" onclick="location.reload()">✖</button>
                             </div>
                         </div>
                     </div>
