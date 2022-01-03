@@ -133,8 +133,9 @@ body {
 
 #comment-container .comment-content{
   font-size: 13px;
-  margin-left: 10px;
   padding-top:3px;
+  width: 420px;
+  border: 1px solid lightgray;
 }
 
 .post-footer .post-content-wrapper {
