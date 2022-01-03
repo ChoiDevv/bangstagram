@@ -15,13 +15,13 @@ app.config['UPLOAD_FOLDER'] = "./static/profile_pics"
 SECRET_KEY = 'SPARTA'
 
 #client = MongoClient('내AWS아이피', 27017, username="아이디", password="비밀번호")
-client = MongoClient('mongodb+srv://test:sparta@cluster0.mgxkf.mongodb.net/Cluster0?retryWrites=true&w=majority')
+client = MongoClient('mongodb+srv://test:sparta@cluster0.mgxkf.mongodb.net/Cluster0?retryWrites=true&w=majority', tlsCAFile=certifi.where())
 db = client.dbinstaclone
 #db.userinfo.insert_one({'id':'test', 'hash':'test'})
 #client = MongoClient('mongodb+srv://test:sparta@cluster0.mgxkf.mongodb.net/Cluster0?retryWrites=true&w=majority')
 #db = client.dbinstaclone
 
-client_post_server = MongoClient('mongodb+srv://test:sparta@cluster0.i0lgb.mongodb.net/myFirstDatabase?retryWrites=true&w=majority')
+client_post_server = MongoClient('mongodb+srv://test:sparta@cluster0.i0lgb.mongodb.net/myFirstDatabase?retryWrites=true&w=majority', tlsCAFile=certifi.where())
 db_post = client_post_server.dbpost
 db_imgs = client_post_server.dbimg
 #db_post.postinfo.insert_one({'writer':'test@gmail.com', 'like':0, 'img':'', 'comment':''})
@@ -265,4 +265,4 @@ if __name__ == '__main__':
     #print(dir(db_post.postinfo))
     #print(db_post.postinfo.count_documents({}))
     #print(db.userinfo.count_documents({}))
-    app.run('0.0.0.0', port=5000, debug=True)
+    app.run('0.0.0.0', port=5001, debug=True)
