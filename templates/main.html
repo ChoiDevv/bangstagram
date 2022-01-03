@@ -34,33 +34,44 @@
                         let feed_image = feed_list[i]['img'];
                         let like_count = feed_list[i]['like'];
                         let post_content = feed_list[i]['contents'];
-                        // let comment_list = feed_list[i]['comment'];
-                        // let comment_author = comment_list[i][0];
-                        // let comment_content = comment_list[i][1];
+                        let comment_list = feed_list[i]['comment'];
+
                         let posting_time = feed_list['post_time']
                         let old_time = feed_image.split('-')
-                            let old_time_day = Number(old_time[5])
-                            let cur_time_day = Number(String(new Date()).split(' ')[2])
-                            let old_time_hour = Number(old_time[4])
-                            let cur_time_hour = Number(cur_time[0])
-                            let old_time_min = Number(old_time[5])
-                            let cur_time_min = Number(cur_time[1])
-                            let old_time_sec = Number(old_time[6].split('.')[0])
-                            let cur_time_sec = Number(cur_time[2])
-                            if(cur_time_day == old_time_day){
-                                if(cur_time_hour == old_time_hour){
-                                    if(cur_time_min == old_time_min){
-                                        posting_time = String((cur_time_sec - old_time_sec)) + "초 전"
-                                    }else{
-                                        posting_time = String((cur_time_min - old_time_min)) + "분 전"
-                                    }
+                        let old_time_day = Number(old_time[5])
+                        let cur_time_day = Number(String(new Date()).split(' ')[2])
+                        let old_time_hour = Number(old_time[4])
+                        let cur_time_hour = Number(cur_time[0])
+                        let old_time_min = Number(old_time[5])
+                        let cur_time_min = Number(cur_time[1])
+                        let old_time_sec = Number(old_time[6].split('.')[0])
+                        let cur_time_sec = Number(cur_time[2])
+                        if(cur_time_day == old_time_day){
+                            if(cur_time_hour == old_time_hour){
+                                if(cur_time_min == old_time_min){
+                                    posting_time = String((cur_time_sec - old_time_sec)) + "초 전"
                                 }else{
-                                    posting_time = String((cur_time_hour - old_time_hour)) + "시간 전"
+                                    posting_time = String((cur_time_min - old_time_min)) + "분 전"
                                 }
                             }else{
-                                posting_time = old_time[3] +"년 " + old_time[4] +"월 " + old_time[5] +"일"
+                                posting_time = String((cur_time_hour - old_time_hour)) + "시간 전"
                             }
-                        let temp_html = `<div class="post-container">
+                        }else{
+                            posting_time = old_time[3] +"년 " + old_time[4] +"월 " + old_time[5] +"일"
+                        }
+
+                        for(let j=0; j <comment_list.length; j++){
+                            for(let k=0; k < 2; k++) {
+                                let comment_person = comment_list[k][0]
+                                let comment_content = comment_list[k][1]
+
+                                $('#commentinfo').append(`<p class="comment-person" >${comment_person}</p>
+                                                      <p class="comment-content" >${comment_content}</p>
+                                                        <br>`);
+                            }
+                        }
+
+                        let temp_html = `<div class="post-container" xmlns="http://www.w3.org/1999/html">
                                                     <div class="post-wrapper">
                                                         <div class="post-header">
                                                             <div class="left-wrapper">
@@ -93,9 +104,7 @@
                                                                 <p class="post-author">${user_name}</p>
                                                                 <p class="post-content">${post_content}</p>
                                                             </div>
-                                                            <div>
-                                                                // <p class="comment-person"></p>
-                                                                // <p class="comment-content"></p>
+                                                            <div id="commentinfo">
                                                             </div>
                                                             <div id="posting-time">
                                                                 <p class="post-time">${posting_time}</p>
