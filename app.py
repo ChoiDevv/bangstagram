@@ -292,10 +292,11 @@ def user_file_upload():
         return redirect(url_for("login", msg="로그인 시간이 만료되었습니다."))
     except jwt.exceptions.DecodeError:
         return redirect(url_for("login", msg="로그인 정보가 존재하지 않습니다."))
+        return redirect(url_for("login", msg="로그인 정보가 존재하지 않습니다."))
 
 if __name__ == '__main__':
     #db_post.postinfo.insert_one({'img': '3ebpw-2021-12-31-09-06-08.png', 'email': 'test@gmail.com', 'like': [], 'contents': '', 'comment': {}, 'post_time':'test_time'})
     #print(dir(db_post.postinfo))
     #print(db_post.postinfo.count_documents({}))
     #print(db.userinfo.count_documents({}))
-    app.run('0.0.0.0', port=5000, debug=True)
+    app.run('0.0.0.0', port=5001, debug=True)

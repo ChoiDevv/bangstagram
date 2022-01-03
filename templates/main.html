@@ -48,47 +48,39 @@
 
                     for (let i=0; i < feed_list.length; i++) {
                         let user_name = feed_list[i]['nickname'];
+                        let email = feed_list[i]['email']
                         let feed_image = feed_list[i]['img'];
-                        let like_count = feed_list[i]['like'];
                         let post_content = feed_list[i]['contents'];
-                        let comment_list = feed_list[i]['comment'];
-
-                        let posting_time = feed_list['post_time']
-                        let old_time = feed_image.split('-')
-                        let old_time_day = Number(old_time[5])
+                        // let comment_list = feed_list[i]['comment'];
+                        // let comment_author = comment_list[i][0];
+                        // let comment_content = comment_list[i][1];
+                        let posting_time = feed_list[i]['post_time']
+                        let old_time = posting_time.split(' ')[4].split(':')
+                        let old_time_day = Number(posting_time.split(' ')[2])
                         let cur_time_day = Number(String(new Date()).split(' ')[2])
-                        let old_time_hour = Number(old_time[4])
+                        let old_time_hour = Number(old_time[0])
                         let cur_time_hour = Number(cur_time[0])
-                        let old_time_min = Number(old_time[5])
+                        let old_time_min = Number(old_time[1])
                         let cur_time_min = Number(cur_time[1])
-                        let old_time_sec = Number(old_time[6].split('.')[0])
+                        let old_time_sec = Number(old_time[2])
                         let cur_time_sec = Number(cur_time[2])
-                        if(cur_time_day == old_time_day){
-                            if(cur_time_hour == old_time_hour){
-                                if(cur_time_min == old_time_min){
+                        if (cur_time_day == old_time_day) {
+                            if (cur_time_hour == old_time_hour) {
+                                if (cur_time_min == old_time_min) {
                                     posting_time = String((cur_time_sec - old_time_sec)) + "초 전"
-                                }else{
+                                } else {
                                     posting_time = String((cur_time_min - old_time_min)) + "분 전"
                                 }
-                            }else{
+                            } else {
                                 posting_time = String((cur_time_hour - old_time_hour)) + "시간 전"
                             }
-                        }else{
-                            posting_time = old_time[3] +"년 " + old_time[4] +"월 " + old_time[5] +"일"
+                        } else {
+                            posting_time = old_time[3] + "년 " + old_time[4] + "월 " + old_time[5] + "일"
                         }
-
-                        for(let j=0; j <comment_list.length; j++){
-                            for(let k=0; k < 2; k++) {
-                                let comment_person = comment_list[k][0]
-                                let comment_content = comment_list[k][1]
-
-                                $('#commentinfo').append(`<p class="comment-person" >${comment_person}</p>
-                                                      <p class="comment-content" >${comment_content}</p>
-                                                        <br>`);
-                            }
-                        }
-
-                        let temp_html = `<div class="post-container" xmlns="http://www.w3.org/1999/html">
+                        let like_memeber = feed_list[i]['like']
+                        let like_count = like_memeber.length
+                        if (like_count == 0){
+                            let temp_html = `<div class="post-container">
                                                     <div class="post-wrapper">
                                                         <div class="post-header">
                                                             <div class="left-wrapper">
@@ -103,7 +95,7 @@
                                                             <img id="post_img" src="../static/user_img/${feed_image}">
                                                             <div class="post-icons-wrapper">
                                                                 <div class="left-wrapper" >
-                                                                    <img id="like_img" onclick="temp_like_up_down()" class="post-icon" src="../static/image/like.png">
+                                                                    <img id="like_img" onclick="find_like(this)" class="post-icon" src="../static/image/like.png">
                                                                     <img class="post-icon-2" src="../static/image/comment@3x.png">
                                                                     <img class="post-icon" src="../static/image/dm@3x.png">
                                                                 </div>
@@ -115,13 +107,15 @@
                                                         <div class="post-footer">
                                                             <div class="post-like-wrapper">
                                                                 <img src="https://cdn.topstarnews.net/news/photo/201811/526783_192798_1141.jpg">
-                                                                <p><strong>${user_name}</strong>님 <span id="like_cnt" style="font-weight: bold;">${like_count}</span>명이 좋아합니다</p>
+                                                                <p id="like_comment"><span id="like_cnt" style="font-weight: bold;">${like_count}</span>명이 좋아합니다</p>
                                                             </div>
                                                             <div class="post-content-wrapper">
                                                                 <p class="post-author">${user_name}</p>
                                                                 <p class="post-content">${post_content}</p>
                                                             </div>
-                                                            <div id="commentinfo">
+                                                            <div>
+                                                                 <p class="comment-person"></p>
+                                                                 <p class="comment-content"></p>
                                                             </div>
                                                             <div id="posting-time">
                                                                 <p class="post-time">${posting_time}</p>
@@ -129,7 +123,108 @@
                                                         </div>
                                                     </div>
                                                 </div>`
-                        $('#container2').append(temp_html);
+                            $('#container2').append(temp_html);
+                        }else{
+                            let check_dup = false
+                            for (let i=0; i<like_memeber.length; i++){
+                                if (like_memeber[i]==email){
+                                    check_dup =true
+                                    break
+                                }
+                            }
+                            if (check_dup == true){
+                                let temp_html = `<div class="post-container">
+                                                    <div class="post-wrapper">
+                                                        <div class="post-header">
+                                                            <div class="left-wrapper">
+                                                                <img src="https://cdn.topstarnews.net/news/photo/201811/526783_192798_1141.jpg"/>
+                                                                <p>${user_name}</p>
+                                                            </div>
+                                                            <div class="right-wrapper">
+                                                                <img src="../static/image/more@3x.png">
+                                                            </div>
+                                                        </div>
+                                                        <div class="post-body">
+                                                            <img id="post_img" src="../static/user_img/${feed_image}">
+                                                            <div class="post-icons-wrapper">
+                                                                <div class="left-wrapper" >
+                                                                    <img id="like_img" onclick="find_like(this)" class="post-icon" src="../static/image/like2.png">
+                                                                    <img class="post-icon-2" src="../static/image/comment@3x.png">
+                                                                    <img class="post-icon" src="../static/image/dm@3x.png">
+                                                                </div>
+                                                                <div class="right-wrapper">
+                                                                    <img src="../static/image/favorite@3x.png">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="post-footer">
+                                                            <div class="post-like-wrapper">
+                                                                <img src="https://cdn.topstarnews.net/news/photo/201811/526783_192798_1141.jpg">
+                                                                <p><strong></strong> <span id="like_cnt" style="font-weight: bold;">${like_count}</span>명이 좋아합니다</p>
+                                                            </div>
+                                                            <div class="post-content-wrapper">
+                                                                <p class="post-author">${user_name}</p>
+                                                                <p class="post-content">${post_content}</p>
+                                                            </div>
+                                                            <div>
+                                                                // <p class="comment-person"></p>
+                                                                // <p class="comment-content"></p>
+                                                            </div>
+                                                            <div id="posting-time">
+                                                                <p class="post-time">${posting_time}</p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>`
+                                $('#container2').append(temp_html);
+                            }
+                            else{
+                                let temp_html = `<div class="post-container">
+                                                    <div class="post-wrapper">
+                                                        <div class="post-header">
+                                                            <div class="left-wrapper">
+                                                                <img src="https://cdn.topstarnews.net/news/photo/201811/526783_192798_1141.jpg"/>
+                                                                <p>${user_name}</p>
+                                                            </div>
+                                                            <div class="right-wrapper">
+                                                                <img src="../static/image/more@3x.png">
+                                                            </div>
+                                                        </div>
+                                                        <div class="post-body">
+                                                            <img id="post_img" src="../static/user_img/${feed_image}">
+                                                            <div class="post-icons-wrapper">
+                                                                <div class="left-wrapper" >
+                                                                    <img id="like_img" onclick="find_like(this)" class="post-icon" src="../static/image/like.png">
+                                                                    <img class="post-icon-2" src="../static/image/comment@3x.png">
+                                                                    <img class="post-icon" src="../static/image/dm@3x.png">
+                                                                </div>
+                                                                <div class="right-wrapper">
+                                                                    <img src="../static/image/favorite@3x.png">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="post-footer">
+                                                            <div class="post-like-wrapper">
+                                                                <img src="https://cdn.topstarnews.net/news/photo/201811/526783_192798_1141.jpg">
+                                                                <p id="like_comment"><strong></strong><span id="like_cnt" style="font-weight: bold;">${like_count}</span>명이 좋아합니다</p>
+                                                            </div>
+                                                            <div class="post-content-wrapper">
+                                                                <p class="post-author">${user_name}</p>
+                                                                <p class="post-content">${post_content}</p>
+                                                            </div>
+                                                            <div>
+                                                                 <p class="comment-person"></p>
+                                                                 <p class="comment-content"></p>
+                                                            </div>
+                                                            <div id="posting-time">
+                                                                <p class="post-time">${posting_time}</p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>`
+                                $('#container2').append(temp_html);
+                            }
+                        }
 
                     }
                 }
@@ -169,40 +264,22 @@
             document.getElementById('link').href = '/fileshow/' + title
         }
 
-        function numberWithCommas(x) {
-            return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-        }
-
-        function temp_like_up_down(){
-            let plus_like_cnt = numberWithCommas(Number($('#like_cnt').text().split(',').join("")) + 1)
-            let minus_like_cnt = numberWithCommas(Number($('#like_cnt').text().split(',').join("")) - 1)
-            let img_name = $('#post_img').attr('src').split('/')[3]
-            let temp_html =``
-            if ($('#like_img').attr('src').split('/')[3] == "like.png"){
-                $('#like_img').attr('src', "../static/image/like2.png")
-                temp_html =`${plus_like_cnt}`
-                $('#like_cnt').empty()
-                $('#like_cnt').append(temp_html)
-                $.ajax({
-                    type: 'POST',
-                    url: '/push_like',
-                    data: { img_name:img_name},
-                    success: function (response) {
-                    }
-                });
-            }else{
-                $('#like_img').attr('src', "../static/image/like.png")
-                temp_html =`${minus_like_cnt}`
-                $('#like_cnt').empty()
-                $('#like_cnt').append(temp_html)
-                $.ajax({
-                    type: 'POST',
-                    url: '/push_like',
-                    data: { img_name:img_name},
-                    success: function (response) {
-                    }
-                });
+       function find_like(temp) {
+            if (temp.src.includes('like2.png')) {
+                temp.src = '../static/image/like.png';
+            } else {
+                temp.src = '../static/image/like2.png';
             }
+            let get_img_file_name = temp.parentElement.parentElement.parentElement.children[0].src
+
+            let img_name = String(get_img_file_name).split('/')[5]
+            $.ajax({
+                type: 'POST',
+                url: '/push_like',
+                data: {img_name: img_name},
+                success: function (response) {
+                }
+            });
         }
 
 
@@ -235,7 +312,7 @@
                         </div>
                         <div class="post-icons-wrapper">
                             <div class="left-wrapper" >
-                                <img id="like_img" onclick="temp_like_up_down()" class="post-icon" src="../static/image/like.png">
+                                <img id="like_img" onclick="find_like(this)" class="post-icon" src="../static/image/like.png">
                                 <img class="post-icon-2" src="../static/image/comment@3x.png">
                                 <img class="post-icon" src="../static/image/dm@3x.png">
                             </div>
