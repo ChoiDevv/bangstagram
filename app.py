@@ -72,7 +72,7 @@ def sign_in():
         time_token = (datetime.utcnow() + timedelta(seconds=300))
         header = {'id': id, 'exp': time_token}
         #python 버전에 따라 다르지만 현 버전에서는 decode 가 필요 없이 그냥 문자열임
-        jwt_token = jwt.encode(header, SECRET_KEY, algorithm='HS256')#.decode('utf-8')
+        jwt_token = jwt.encode(header, SECRET_KEY, algorithm='HS256').decode('utf-8')
         return jsonify({'result': 'success', 'time_token': jwt_token})
     else:
         return jsonify({'result': 'fail', 'msg': '아이디/비밀번호가 정확하지 않습니다.'})
