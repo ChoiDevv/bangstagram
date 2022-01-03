@@ -265,4 +265,4 @@ if __name__ == '__main__':
     #print(dir(db_post.postinfo))
     #print(db_post.postinfo.count_documents({}))
     #print(db.userinfo.count_documents({}))
-    app.run('0.0.0.0', port=5001, debug=True)
+    app.run('0.0.0.0', port=5000, debug=True)
