@@ -15,7 +15,6 @@
         var pages = 1;
         $(window).scroll(function(){
             if($(window).scrollTop() == $(document).height() - $(window).height()){  //스크롤이 존재할 때(ex)게시물이 한개라면창길이가 짧을 때) 발생함
-                //alert("맨밑입니다.")
                 pages += 5;
                 show_post();
             }
@@ -40,21 +39,26 @@
                         // let comment_content = comment_list[i][1];
                         let posting_time = feed_list['post_time']
                         let old_time = feed_image.split('-')
-                        //console.log(old_time)
+                            let old_time_day = Number(old_time[5])
+                            let cur_time_day = Number(String(new Date()).split(' ')[2])
                             let old_time_hour = Number(old_time[4])
                             let cur_time_hour = Number(cur_time[0])
                             let old_time_min = Number(old_time[5])
                             let cur_time_min = Number(cur_time[1])
                             let old_time_sec = Number(old_time[6].split('.')[0])
                             let cur_time_sec = Number(cur_time[2])
-                            if(cur_time_hour == old_time_hour){
-                                if(cur_time_min == old_time_min){
-                                    posting_time = String((cur_time_sec - old_time_sec)) + "초 전"
+                            if(cur_time_day == old_time_day){
+                                if(cur_time_hour == old_time_hour){
+                                    if(cur_time_min == old_time_min){
+                                        posting_time = String((cur_time_sec - old_time_sec)) + "초 전"
+                                    }else{
+                                        posting_time = String((cur_time_min - old_time_min)) + "분 전"
+                                    }
                                 }else{
-                                    posting_time = String((cur_time_min - old_time_min)) + "분 전"
+                                    posting_time = String((cur_time_hour - old_time_hour)) + "시간 전"
                                 }
                             }else{
-                                posting_time = String((cur_time_hour - old_time_hour)) + "시간 전"
+                                posting_time = old_time[3] +"년 " + old_time[4] +"월 " + old_time[5] +"일"
                             }
                         let temp_html = `<div class="post-container">
                                                     <div class="post-wrapper">
@@ -153,25 +157,25 @@
                 temp_html =`${plus_like_cnt}`
                 $('#like_cnt').empty()
                 $('#like_cnt').append(temp_html)
-                // $.ajax({
-                //     type: 'POST',
-                //     url: '/push_like',
-                //     data: { img_name:img_name},
-                //     success: function (response) {
-                //     }
-                // });
+                $.ajax({
+                    type: 'POST',
+                    url: '/push_like',
+                    data: { img_name:img_name},
+                    success: function (response) {
+                    }
+                });
             }else{
                 $('#like_img').attr('src', "../static/image/like.png")
                 temp_html =`${minus_like_cnt}`
                 $('#like_cnt').empty()
                 $('#like_cnt').append(temp_html)
-                // $.ajax({
-                //     type: 'POST',
-                //     url: '/push_like',
-                //     data: { img_name:img_name},
-                //     success: function (response) {
-                //     }
-                // });
+                $.ajax({
+                    type: 'POST',
+                    url: '/push_like',
+                    data: { img_name:img_name},
+                    success: function (response) {
+                    }
+                });
             }
         }
 
