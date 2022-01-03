@@ -19,6 +19,7 @@ body {
     position: fixed;
     max-width: 720px;
     border-bottom: 1px solid lightgray;
+    z-index: 1;
 }
 #header .header-icon {
     margin: 3% 5%;
