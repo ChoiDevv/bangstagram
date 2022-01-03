@@ -1,3 +1,5 @@
+import json
+
 from pymongo import MongoClient
 import jwt, os
 import datetime
@@ -6,11 +8,15 @@ import hashlib
 from flask import Flask, render_template, jsonify, request, redirect, url_for
 from werkzeug.utils import secure_filename
 from datetime import datetime, timedelta
+from flask_recaptcha import ReCaptcha
 
 
 app = Flask(__name__)
 app.config["TEMPLATES_AUTO_RELOAD"] = True
 app.config['UPLOAD_FOLDER'] = "./static/profile_pics"
+app.config['RECAPTCHA_SITE_KEY'] = '6LdVXOgdAAAAAPv4OrLzSgMbd-sMY6krqlUznq_C'
+app.config['RECAPTCHA_SECRET_KEY'] = '6LdVXOgdAAAAAFVcOm5EUk5C5ptacWRh7y90HSoQ'
+recaptcha = ReCaptcha(app)
 
 SECRET_KEY = 'SPARTA'
 
@@ -57,6 +63,25 @@ def push_like():#유저한테서 이미지 이름을 받아와서 이미지 이�
     except jwt.exceptions.DecodeError:
         return redirect(url_for("login", msg="로그인 정보가 존재하지 않습니다."))
 
+@app.route('/push_comment', methods=['POST'])
+def push_comment():#댓글 추가하는 기능임
+    token_receive = request.cookies.get('mytoken')
+    try:
+        payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+        img_name = request.form['img_name']
+        target_post_like = list(db_post.postinfo.find({'img':img_name},{'_id':False}))[0]['like']
+        if(payload['id'] in target_post_like):
+            target_post_like.remove(payload['id'])
+            db_post.postinfo.update_one({'img':img_name}, {"$set": {'like': target_post_like}})
+        else:
+            target_post_like.append(payload['id'])
+            db_post.postinfo.update_one({'img': img_name}, {"$set": {'like': target_post_like}})
+        return jsonify({'result': 'success'})
+    except jwt.ExpiredSignatureError:
+        return redirect(url_for("login", msg="로그인 시간이 만료되었습니다."))
+    except jwt.exceptions.DecodeError:
+        return redirect(url_for("login", msg="로그인 정보가 존재하지 않습니다."))
+
 @app.route('/login')
 def login():
     msg = request.args.get("msg")
@@ -80,7 +105,7 @@ def sign_in():
 @app.route('/sign_up')
 def sign_up_page():
     #msg = request.args.get("msg")
-    return render_template('sign_up.html')
+    return render_template('sign_up.html', sitekey="6LdVXOgdAAAAAPv4OrLzSgMbd-sMY6krqlUznq_C")
 
 @app.route('/user')
 def user_page():
@@ -142,26 +167,30 @@ def post_main_page():
 @app.route('/sign_up/save', methods=['POST'])
 def sign_up():
     # 회원가입
-    username_receive = request.form['username_give']#유저의 닉네임
-    password_receive = request.form['password_give']
-    email_receive = request.form['email_give']#유저의 이메일
-    gender_receive = request.form['gender_give']
-    #아래는 해쉬되어서 온다는 가정
-    search_result = list(db.userinfo.find({'$or': [{'email': email_receive}, {'id':username_receive}]}, {'_id': False}))
-    if(len(search_result) == 0):
-        db.userinfo.insert_one({
-            'id': username_receive,
-            'hash': password_receive,
-            'email':email_receive,
-            'gender':gender_receive,
-            'follower':[],
-            'follow':[],
-            'profile_img':False
-        })
-        return jsonify({'result': 'success'})
+    print(request.form['captcha_state'])
+    if (request.form['captcha_state'] == 'true'):
+        username_receive = request.form['username_give']#유저의 닉네임
+        password_receive = request.form['password_give']
+        email_receive = request.form['email_give']#유저의 이메일
+        gender_receive = request.form['gender_give']
+        #아래는 해쉬되어서 온다는 가정
+        search_result = list(db.userinfo.find({'$or': [{'email': email_receive}, {'id':username_receive}]}, {'_id': False}))
+        if(len(search_result) == 0):
+            db.userinfo.insert_one({
+                'id': username_receive,
+                'hash': password_receive,
+                'email':email_receive,
+                'gender':gender_receive,
+                'follower':[],
+                'follow':[],
+                'profile_img':False
+            })
+            return jsonify({'result': 'success'})
+        else:
+            return jsonify({'result': 'fail'})
+        # DB에 저장
     else:
-        return jsonify({'result': 'fail'})
-    # DB에 저장
+        return jsonify({'result': 'fail', 'msg': 'reCaptcha를 입력하세요'})
 
 @app.route('/sign_up/check_dup', methods=['POST'])
 def check_dup():
