@@ -94,7 +94,7 @@ def sign_in():
     search_result = list(db.userinfo.find({'$and': [{'email': id}, {'hash': hassed_pw}]}, {'_id':False}))
     # 로그인
     if(len(search_result)==1):
-        time_token = (datetime.utcnow() + timedelta(seconds=300))
+        time_token = (datetime.utcnow() + timedelta(seconds=300)).decode('utf-8')
         header = {'id': id, 'exp': time_token}
         #python 버전에 따라 다르지만 현 버전에서는 decode 가 필요 없이 그냥 문자열임
         jwt_token = jwt.encode(header, SECRET_KEY, algorithm='HS256')
