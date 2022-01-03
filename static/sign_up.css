@@ -256,6 +256,12 @@ body {
     font-size: 80%;
 }
 
+#chkCaptcha{
+    align-items: center;
+    justify-content: center;
+    display: flex;
+}
+
 @media screen and (max-width:480px){
     #container{
     width: 100%;
