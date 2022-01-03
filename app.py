@@ -72,7 +72,7 @@ def sign_in():
         time_token = (datetime.utcnow() + timedelta(seconds=300))
         header = {'id': id, 'exp': time_token}
         #python 버전에 따라 다르지만 현 버전에서는 decode 가 필요 없이 그냥 문자열임
-        jwt_token = jwt.encode(header, SECRET_KEY, algorithm='HS256').decode('utf-8')
+        jwt_token = jwt.encode(header, SECRET_KEY, algorithm='HS256')#.decode('utf-8')
         return jsonify({'result': 'success', 'time_token': jwt_token})
     else:
         return jsonify({'result': 'fail', 'msg': '아이디/비밀번호가 정확하지 않습니다.'})
@@ -193,7 +193,7 @@ def file_upload():#새 글 작성 버젼임
         save_file_name =f'{filename}.{extension}'
         # static/user_img/ 에 요청 이미지파일이름-시간.확장자 형태로 저장된다.
         #linux Version
-        save_to = f'static/user_img/{filename}.{extension}'
+        save_to = f'/static/user_img/{filename}.{extension}'
         #Windows Version
         #save_to = f'\\static\\user_img\\{filename}.{extension}'
         print(save_to)
@@ -242,7 +242,7 @@ def user_file_upload():
         save_file_name =f'{filename}.{extension}'
         # static/user_img/ 에 요청 이미지파일이름-시간.확장자 형태로 저장된다.
         #linux Version
-        save_to = f'static/user_img/{filename}.{extension}'
+        save_to = f'/static/user_img/{filename}.{extension}'
         #Windows Version
         #save_to = f'\\static\\user_img\\{filename}.{extension}'
         print(save_to)
